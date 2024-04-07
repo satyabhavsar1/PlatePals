@@ -6,7 +6,7 @@ import numpy as np
 
 
 # cosine similarity
-def cosine_sim():
+def find_cosine_similarity():
 
   feature_cols = [5, 10, 39, 36, 40, 18, 35, 6, 27, 12, 4, 22, 44]
   num_vectors = 5
@@ -14,7 +14,7 @@ def cosine_sim():
   columns_to_extract = [i for i in range(3,60)]
 
   vectors = np.zeros((num_vectors, len(columns_to_extract)))  # Match the number of columns in restaurant_preferences
-  updated_sf = pd.read_csv('updated_sf.csv')
+  updated_sf = pd.read_csv('/Users/satyabhavsar/Documents/PlatePals/PlatePalsApp/updated_sf.csv')
 
   # Iterate over each vector
   for i in range(num_vectors):

@@ -7,6 +7,7 @@ from django.db import connection
 from django.db.utils import OperationalError
 from .models import User  # Import your Django models
 
+import os
 
 # cosine similarity
 def find_cosine_similarity():
@@ -17,8 +18,11 @@ def find_cosine_similarity():
   columns_to_extract = [i for i in range(3,60)]
 
   vectors = np.zeros((num_vectors, len(columns_to_extract)))  # Match the number of columns in restaurant_preferences
-  updated_sf = pd.read_csv('/Users/satyabhavsar/Documents/PlatePals/PlatePalsApp/updated_sf.csv')
+  directory_path = os.path.dirname(os.path.abspath(__file__))
+  filename = 'updated_sf.csv'
+  file_path = os.path.join(directory_path, filename)
 
+  updated_sf = pd.read_csv(file_path)
   # Iterate over each vector
   for i in range(num_vectors):
       # Randomly select 10 feature indices

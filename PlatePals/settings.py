@@ -33,6 +33,28 @@ STATICFILES_DIRS = [
 ]
 
 # Application definition
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+
+]
+
+CORS_ALLOW_HEADERS = [
+    'Accept',
+    'Accept-Encoding',
+    'Authorization',
+    'Content-Type',
+    'Origin',
+    'Referer',
+    'User-Agent',
+]
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,9 +63,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # Add the URL where your React app is hosted
+    # Add other allowed origins if needed
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    # other middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,6 +99,16 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    # Add other allowed origins if needed
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    # Add other allowed origins if needed
 ]
 
 WSGI_APPLICATION = 'PlatePals.wsgi.application'

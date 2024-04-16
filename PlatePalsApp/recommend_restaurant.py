@@ -6,12 +6,17 @@ import numpy as np
 import os
 
 # cosine similarity
-def find_cosine_similarity():
+def find_cosine_similarity(request):
+  request_headers = request.headers
 
   feature_cols = [5, 10, 39, 36, 40, 18, 35, 6, 27, 12, 4, 22, 44]
   num_vectors = 5
   num_features_selected = 10
   columns_to_extract = [i for i in range(3,60)]
+  print("Request Headers:")
+  for header, value in request_headers.items():
+      print(f"{header}: {value}")
+
 
   vectors = np.zeros((num_vectors, len(columns_to_extract)))  # Match the number of columns in restaurant_preferences
   directory_path = os.path.dirname(os.path.abspath(__file__))

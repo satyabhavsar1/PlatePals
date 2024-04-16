@@ -9,7 +9,7 @@ def index(request):
 
 def cosine_sim(request):
     #data = request.GET  # Get input from the request
-    result = find_cosine_similarity()  # Call your function with input
+    result = find_cosine_similarity(request)  # Call your function with input
     result = np.int64(result)
 
     # Convert the int64 object to a JSON serializable type (e.g., int)

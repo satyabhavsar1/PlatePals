@@ -118,9 +118,16 @@ WSGI_APPLICATION = 'PlatePals.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {
+        'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://testshadow:isrproject@platepals.exra1bp.mongodb.net/?retryWrites=true&w=majority&appName=platepals',
+            'username': 'testshadow',
+            'password': 'isrproject',
+            'authSource': 'admin',  # Or your authentication database
+            # Other optional parameters like port, authentication mechanism, etc.
+        }
     }
 }
 

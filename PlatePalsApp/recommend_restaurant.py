@@ -3,6 +3,10 @@ import pandas as pd
 import csv
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from django.db import connection
+from django.db.utils import OperationalError
+from .models import User  # Import your Django models
+
 import os
 
 # cosine similarity
@@ -30,7 +34,7 @@ def find_cosine_similarity():
   print(vectors)
   group_vector = vectors.sum(axis=0)
   print(group_vector)
-
+  check_database_connection()
   # Convert similarity scores to DataFrame for better visualization
   restaurant_preferences = updated_sf.drop(columns=['ID', 'Restaurant'])
   #print(restaurant_preferences.iloc[0])
@@ -47,3 +51,14 @@ def find_cosine_similarity():
   # Recommendation
   recommended_restaurant = ranked_restaurants.index[0]
   return recommended_restaurant
+
+def check_database_connection():
+    try:
+        # Query the database by fetching some data using Django ORM
+        user_count = User.objects.count()
+
+        # If the query executes without error, the connection is successful
+        print("Connection to the database is successful!")
+    except Exception as e:
+        # If an exception occurs, print the error message
+        print("Failed to connect to the database:", e)

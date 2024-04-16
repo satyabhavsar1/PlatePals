@@ -1,46 +1,16 @@
-// src/components/CreateRoom.js
 import React, { useState } from 'react';
 import { Typography, Button, Paper, Box } from '@mui/material';
 
 const CreateRoom = () => {
-    const [formData, setFormData] = useState({
-        // Initialize form data fields
-        field1: '',
-        field2: '',
-        // Add more fields as needed
-      });
-    
     // Generate a unique 6 digit code
     const generateUniqueCode = () => {
         const code = Math.floor(100000 + Math.random() * 900000);
         return code;
     };
-
-    fetch('http://localhost:8000/api/cosine_sim/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        alert('Form submitted successfully!');
-        // Optionally, reset the form fields after successful submission
-        setFormData({
-          field1: '',
-          field2: '',
-          // Reset other fields as needed
-        });
-      })
-      .catch((error) => {
-        console.error('Error submitting form:', error);
-      });
-
+    
     const [isLocked, setIsLocked] = useState(false); // State variable to track if the room is locked
     const [roomCode] = useState(generateUniqueCode()); // State variable to store room code
+
 
     const handleLockRoom = () => {
         // Logic for locking/unlocking the room
@@ -50,6 +20,35 @@ const CreateRoom = () => {
     const handleViewFriends = () => {
         // Logic for viewing friends in the room
         console.log("Viewing friends...");
+    };
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const { firstName, lastName } = userData;
+    
+    const handleCreateUser = () => {
+        // Construct formData object including firstName and lastName
+        const formData = {
+            first_name: firstName,
+            last_name: lastName,
+            // Add more fields as needed
+        };
+
+        // Make API call to create user
+        fetch('http://localhost:8000/api/create_user/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            alert('User created successfully!');
+        })
+        .catch((error) => {
+            console.error('Error creating user:', error);
+        });
     };
 
     return (
@@ -67,6 +66,9 @@ const CreateRoom = () => {
             </Button>
             <Button variant="contained" onClick={handleLockRoom}>
                 {isLocked ? 'Unlock Room' : 'Lock Room'}
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleCreateUser}>
+                Create User
             </Button>
         </Box>
     );

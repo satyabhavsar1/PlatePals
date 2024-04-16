@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render
 import numpy as np
+from .models import User
 
 def index(request):
     return HttpResponse("Hello, world! This is my first Django web app.")
@@ -26,11 +27,24 @@ def cosine_sim(request):
 @api_view(['POST'])
 def create_user(request):
     if request.method == 'POST':
-        username = request.data.get('username')
-        email = request.data.get('email')
-        password = request.data.get('password')
-        if username and email and password:
-            user = User.objects.create_user(username=username, email=email, password=password)
-            return Response({'message': 'User created successfully'})
-        else:
-            return Response({'error': 'Missing required data'}, status=400)
+        # Parse request body JSON data
+        data = json.loads(request.body)
+        
+        # Extract user data
+        user_id = '11111'
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        
+        # Create user
+        try:
+            new_user = User.objects.create(
+                user_id=user_id,
+                first_name=first_name,
+                last_name=last_name
+                # Add more fields as needed
+            )
+            return JsonResponse({'message': 'User created successfully'}, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)

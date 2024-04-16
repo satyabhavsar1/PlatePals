@@ -5,6 +5,7 @@ from django.db import models
 class User(models.Model):
     class Meta:
         app_label = 'PlatePalsApp'
+        db_table = 'user'
     userguid = models.UUIDField(primary_key=True)
     user_id = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=100)
@@ -13,6 +14,7 @@ class User(models.Model):
 class Room(models.Model):
     class Meta:
         app_label = 'PlatePalsApp'
+        db_table = 'room'
     roomguid = models.UUIDField(primary_key=True)
     code = models.CharField(max_length=50, unique=True)
     admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_of_rooms')

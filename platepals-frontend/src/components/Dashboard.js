@@ -1,7 +1,26 @@
-import React from 'react';
 import { Button, TextField, Typography, Grid, Paper, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    const handleFirstNameChange = (event) => {
+        setFirstName(event.target.value);
+    };
+
+    const handleLastNameChange = (event) => {
+        setLastName(event.target.value);
+    };
+
+    const handleSubmit = () => {
+        // Optionally, perform form validation before proceeding
+        // Store form data in local storage
+        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
+        // Navigate to CreateRoom page
+    };
+    
     return (
         <Box p={3}>
             <Typography variant="h4" gutterBottom>
@@ -19,6 +38,8 @@ const Dashboard = () => {
                             id="outlined-required-firstName"
                             label="First Name"
                             variant="filled"
+                            value={firstName}
+                            onChange={handleFirstNameChange}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -28,6 +49,8 @@ const Dashboard = () => {
                             id="outlined-required-lastName"
                             label="Last Name"
                             variant="filled"
+                            value={lastName}
+                            onChange={handleLastNameChange}
                         />
                     </Grid>
                 </Grid>
@@ -35,9 +58,12 @@ const Dashboard = () => {
             <Button variant="contained" color="primary" href="/room/join" style={{ marginRight: '10px' }}>
                 Join a Room
             </Button>
-            <Button variant="contained" color="primary" href="/room/create">
-                Create a Room
-            </Button>
+            <Link to="/room/create" style={{ textDecoration: 'none' }}>
+
+                <Button variant="contained" color="primary" onClick={handleSubmit}>
+                    Create a Room
+                </Button>
+            </Link>
         </Box>
     );
 }

@@ -122,9 +122,9 @@ DATABASES = {
         'ENGINE': 'djongo',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://testshadow:isrproject@platepals.exra1bp.mongodb.net/?retryWrites=true&w=majority&appName=platepals',
+            'host': 'mongodb+srv://testshadow:testisr@platepals.exra1bp.mongodb.net/?retryWrites=true&w=majority&appName=platepals',
             'username': 'testshadow',
-            'password': 'isrproject',
+            'password': 'testisr',
             'authSource': 'admin',  # Or your authentication database
             # Other optional parameters like port, authentication mechanism, etc.
         }

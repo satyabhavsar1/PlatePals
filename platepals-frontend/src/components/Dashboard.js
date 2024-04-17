@@ -15,12 +15,37 @@ const Dashboard = () => {
     };
 
     const handleSubmit = () => {
-        // Optionally, perform form validation before proceeding
-        // Store form data in local storage
         localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
-        // Navigate to CreateRoom page
-    };
+        const formData = {
+            first_name: firstName,
+            last_name: lastName,
+        };
     
+        // Make API call to create room
+        fetch('http://localhost:8000/api/create_room/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON response
+        })
+        .then((data) => {
+            // Handle the response data
+            localStorage.setItem('code', data.code);
+            console.log('Room code:', data.code);
+            console.log('roomcode in dashboard', data);
+        })
+        .catch((error) => {
+            console.error('Error creating room:', error);
+        });
+    };
+        
     return (
         <Box p={3}>
             <Typography variant="h4" gutterBottom>

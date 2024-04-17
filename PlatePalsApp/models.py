@@ -1,4 +1,4 @@
-from django.db import models
+from djongo import models
 import uuid
 
 # Create your models here.
@@ -8,7 +8,7 @@ class User(models.Model):
         app_label = 'PlatePalsApp'
         db_table = 'user'
 
-    userguid = models.AutoField(primary_key=True)  # Auto-generated integer primary key
+    userguid = models.ObjectIdField(primary_key=True, db_column='_id')
     user_id = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -23,7 +23,7 @@ class Room(models.Model):
     class Meta:
         app_label = 'PlatePalsApp'
         db_table = 'room'
-    roomguid =  models.AutoField(primary_key=True)
+    roomguid = models.ObjectIdField(primary_key=True, db_column='_id')
     code = models.CharField(max_length=6, unique=True)
     admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_of_rooms')
     members = models.ManyToManyField(User, related_name='rooms')

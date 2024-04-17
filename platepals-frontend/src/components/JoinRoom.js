@@ -13,7 +13,48 @@ const JoinRoom = () => {
     const handleSubmit = (event) => {
         // Prevent the default form submission behavior
         event.preventDefault();
+        const userDataString = localStorage.getItem('userData');
 
+        // Parse the stringified JSON into a JavaScript object
+        const userData = JSON.parse(userDataString);
+
+        // Extract firstName and lastName
+        const { firstName, lastName } = userData;
+
+
+        console.log(userData)
+        const formData = {
+            first_name: firstName,
+            last_name: lastName,
+            code: roomCode,
+        };
+        console.log(formData)
+
+        // Make API call to add member to room
+        fetch('http://localhost:8000/api/add_member_to_room/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON response
+        })
+        .then((data) => {
+            // Handle the response data
+            localStorage.setItem('code', data.code);
+            console.log('Room code:', data.code);
+            console.log('roomcode in dashboard', data);
+        })
+        .catch((error) => {
+            console.error('Error creating room:', error);
+        });
+    
+        
         // Logic to handle joining the room with the entered room code
         console.log("Joining room with code:", roomCode);
     };

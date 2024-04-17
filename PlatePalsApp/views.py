@@ -121,3 +121,41 @@ def update_room(request):
         return JsonResponse({'message': 'Room updated successfully'})
     else:
         return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+
+@api_view(['POST'])
+def add_member_to_room(request):
+    if request.method == 'POST':
+        # Parse request body JSON data
+        data = json.loads(request.body)
+        
+        # Extract user and room
+        first_name_query = data.get('first_name')
+        last_name_query = data.get('last_name')
+        code = data.get('code')
+        print(code)
+        try:
+            room = Room.objects.get(code=code)
+            print(room)
+            print(room.islocked)
+            if(room.islocked == True):
+                return JsonResponse({'error': 'Room is already locked'}, status=400)
+
+        except Room.DoesNotExist:
+            return JsonResponse({'error': 'Room not found'}, status=404)
+
+        # Fetch the user
+        try:
+            print(first_name_query)
+            print(last_name_query)
+            user = User.objects.get(first_name=first_name_query, last_name=last_name_query)
+            print(user)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
+
+        room.members.add(user)
+        room.save()
+
+        # Return a JSON response indicating success
+        return JsonResponse({'message': 'Member added successfully'})
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)

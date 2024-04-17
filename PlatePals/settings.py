@@ -122,9 +122,9 @@ DATABASES = {
         'ENGINE': 'djongo',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://testshadow:isrplatepals@platepals.exra1bp.mongodb.net/?retryWrites=true&w=majority&appName=platepals',
-            'username': 'testshadow',
-            'password': 'isrplatepals',
+            'host': os.getenv('MONGO_DB_URI'),
+            'username': os.getenv('MONGO_DB_USERNAME'),
+            'password': os.getenv('MONGO_DB_PASSWORD'),
             'authSource': 'admin',  # Or your authentication database
             # Other optional parameters like port, authentication mechanism, etc.
         }

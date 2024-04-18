@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render
+from djongo.models.fields import ObjectIdField
 import numpy as np
 from .models import User, Room
 from django.core.exceptions import ObjectDoesNotExist
@@ -132,12 +133,15 @@ def add_member_to_room(request):
         first_name_query = data.get('first_name')
         last_name_query = data.get('last_name')
         code = data.get('code')
+        print(first_name_query)
+        print(last_name_query)
         print(code)
         try:
             room = Room.objects.get(code=code)
             print(room)
             print(room.islocked)
             if(room.islocked == True):
+                print(room.islocked)
                 return JsonResponse({'error': 'Room is already locked'}, status=400)
 
         except Room.DoesNotExist:
@@ -153,9 +157,35 @@ def add_member_to_room(request):
             return JsonResponse({'error': 'User does not exist'}, status=400)
 
         room.members.add(user)
+        print(user)
         room.save()
 
         # Return a JSON response indicating success
         return JsonResponse({'message': 'Member added successfully'})
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+
+
+@api_view(['GET'])
+def fetch_members(request):
+    if request.method == 'GET':
+        rcode = request.GET.get('code')
+        print(rcode)
+        try:
+            room = Room.objects.get(code=rcode)
+            print(room)
+            # Access the members of the room through the 'members' attribute
+            members = room.members.all()
+            print(members)
+            names = [(user.first_name, user.last_name) for user in members]
+            print(names)
+
+        except Room.DoesNotExist:
+            return JsonResponse({'error': 'Room not found'}, status=404)
+
+
+        # Return a JSON response including names
+        return JsonResponse({'names': names})
+
     else:
         return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)

@@ -12,6 +12,7 @@ class User(models.Model):
     user_id = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    rooms = models.ManyToManyField('Room', related_name='members')
 
     def save(self, *args, **kwargs):
         # Generate a unique user_id if it's not provided

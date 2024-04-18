@@ -8,10 +8,13 @@ const Dashboard = () => {
 
     const handleFirstNameChange = (event) => {
         setFirstName(event.target.value);
+        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
+
     };
 
     const handleLastNameChange = (event) => {
         setLastName(event.target.value);
+        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
     };
 
     const handleSubmit = () => {
@@ -80,7 +83,7 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
             </Paper>
-            <Button variant="contained" color="primary" href="/room/join" style={{ marginRight: '10px' }}>
+            <Button variant="contained" color="primary" href="/room/join" style={{ marginRight: '10px' }} onClick={handleSubmit}>
                 Join a Room
             </Button>
             <Link to="/room/create" style={{ textDecoration: 'none' }}>

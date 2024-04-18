@@ -29,6 +29,25 @@ const CreateRoom = () => {
     const handleViewFriends = () => {
         // Logic for viewing friends in the room
         console.log("Viewing friends...");
+        const url = `http://localhost:8000/api/fetch_members/?code=${roomCode}`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log(response)
+        })
+        .catch((error) => {
+            console.error('Error locking room: ', error);
+        });
+
+
     };
     
     return (

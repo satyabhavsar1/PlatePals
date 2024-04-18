@@ -40,7 +40,12 @@ const JoinRoom = () => {
         })
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                if (response.headers.get('content-type')?.includes('application/json')) {
+                    // If it does, parse the JSON response and throw the error message
+                    return response.json().then(errorResponse => {
+                      throw new Error(errorResponse.error || 'Unknown error occurred');
+                    });
+                }
             }
             return response.json(); // Parse the JSON response
         })
@@ -51,9 +56,16 @@ const JoinRoom = () => {
             console.log('roomcode in dashboard', data);
         })
         .catch((error) => {
-            console.error('Error creating room:', error);
+            console.error('Error joining room:', error);
+            // Access the error message from the response
+            if (error!="") {
+                // Alert the error message
+                alert(error);
+            } else {
+                // If the error message is not available, alert a generic message
+                alert('An error occurred while joining the room.');
+            }
         });
-    
         
         // Logic to handle joining the room with the entered room code
         console.log("Joining room with code:", roomCode);

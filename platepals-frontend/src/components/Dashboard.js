@@ -1,29 +1,44 @@
-import { Button, TextField, Typography, Grid, Paper, Box } from '@mui/material';
-import React, { useState } from 'react';
+import { Button, TextField, Typography, Grid, Paper, Box, Snackbar, SnackbarContent } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const Dashboard = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [isValid, setIsValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsValid(firstName.trim() !== '' && lastName.trim() !== '');
+    }, [firstName, lastName]);
 
     const handleFirstNameChange = (event) => {
         setFirstName(event.target.value);
-        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
-
+        localStorage.setItem('userData', JSON.stringify({ firstName: event.target.value, lastName }));
     };
 
     const handleLastNameChange = (event) => {
         setLastName(event.target.value);
-        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
+        localStorage.setItem('userData', JSON.stringify({ firstName, lastName: event.target.value }));
     };
 
-    const handleSubmit = () => {
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
+    const handleCreateSubmit = () => {
+        if (!isValid) return; // Prevent submission if fields are not valid
+
         localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
         const formData = {
             first_name: firstName,
             last_name: lastName,
         };
-    
+
         // Make API call to create room
         fetch('http://localhost:8000/api/create_room/', {
             method: 'POST',
@@ -32,23 +47,65 @@ const Dashboard = () => {
             },
             body: JSON.stringify(formData),
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the JSON response
-        })
-        .then((data) => {
-            // Handle the response data
-            localStorage.setItem('code', data.code);
-            console.log('Room code:', data.code);
-            console.log('roomcode in dashboard', data);
-        })
-        .catch((error) => {
-            console.error('Error creating room:', error);
-        });
+            .then((response) => {
+                return response.json(); // Parse the JSON response
+            })
+            .then((data) => {
+                // Handle the response data
+                if (data.success) {
+                    localStorage.setItem('code', data.code);
+                    console.log('Room code:', data.code);
+                    console.log('roomcode in dashboard', data);
+                    navigate('/room/create');
+                }
+                else {
+                    setErrorMessage(data.error);
+                    setOpenSnackbar(true);
+                }
+
+            })
+            .catch((error) => {
+                console.error('Error creating room:', error);
+            });
     };
-        
+
+    const handleJoinSubmit = () => {
+        if (!isValid) return; // Prevent submission if fields are not valid
+
+        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
+        const formData = {
+            first_name: firstName,
+            last_name: lastName,
+        };
+
+        // Make API call to create room
+        fetch('http://localhost:8000/api/join_room_check_user/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => {
+                return response.json(); // Parse the JSON response
+            })
+            .then((data) => {
+                // Handle the response data
+                if (data.success) {
+                    navigate('/room/join');
+                }
+                else {
+                    setErrorMessage(data.error);
+                    setOpenSnackbar(true);
+                }
+
+            })
+            .catch((error) => {
+                console.error('Error creating room:', error);
+            });
+    };
+
+
     return (
         <Box p={3}>
             <Typography variant="h4" gutterBottom>
@@ -83,15 +140,28 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
             </Paper>
-            <Button variant="contained" color="primary" href="/room/join" style={{ marginRight: '10px' }} onClick={handleSubmit}>
+            <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={handleJoinSubmit} disabled={!isValid}>
                 Join a Room
             </Button>
-            <Link to="/room/create" style={{ textDecoration: 'none' }}>
-
-                <Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Create a Room
-                </Button>
-            </Link>
+            <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={handleCreateSubmit} disabled={!isValid}>
+                Create a Room
+            </Button>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+            >
+                <SnackbarContent
+                    style={{ backgroundColor: '#f44336' }}
+                    message={errorMessage}
+                    action={
+                        <Button color="inherit" size="small" onClick={handleCloseSnackbar}>
+                            Close
+                        </Button>
+                    }
+                />
+            </Snackbar>
         </Box>
     );
 }

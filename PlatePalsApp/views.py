@@ -77,7 +77,7 @@ def create_room(request):
                 print(admin_user)
                 print(admin_user.first_name)
             except User.DoesNotExist:
-                return JsonResponse({'error': 'Admin user does not exist'}, status=400)
+                return JsonResponse({'success':False,'error': 'Admin user does not exist'}, status=400)
 
             max_attempts = 10  # Maximum number of attempts to generate a unique code
             print(max_attempts)
@@ -95,10 +95,33 @@ def create_room(request):
                 admin = admin_user
             )
         except ObjectDoesNotExist:
-            return JsonResponse({'error': 'User does not exist'}, status=404)
-        return JsonResponse({'code':new_code})
+            return JsonResponse({'success':False,'error': 'User does not exist'}, status=404)
+        return JsonResponse({'success':True,'code':new_code})
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
+
+@api_view(['POST'])
+def join_room_check_user(request):
+    if request.method == 'POST':
+        # Parse request body JSON data
+        data = json.loads(request.body)
+        
+        # Extract user data
+        first_name_query = data.get('first_name')
+        last_name_query = data.get('last_name')
+        # Create room
+        # try:
+        try:
+            admin_user = User.objects.get(first_name=first_name_query, last_name=last_name_query)
+            print(admin_user)
+            print(admin_user.first_name)
+        except User.DoesNotExist:
+            return JsonResponse({'success':False,'error': 'User does not exist'}, status=400)
+
+        return JsonResponse({'success':True})
+    else:
+        return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
+    
 
 @api_view(['POST'])
 def update_room(request):

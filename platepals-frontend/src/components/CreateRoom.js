@@ -1,9 +1,39 @@
-import React, { useState } from 'react';
-import { Typography, Button, Paper, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const CreateRoom = () => {
-    const [isLocked, setIsLocked] = useState(false); 
-    const roomCode = localStorage.getItem('code'); // Retrieve room code from localStorage
+    const [isLocked, setIsLocked] = useState(false);
+    const [roomCode, setRoomCode] = useState(localStorage.getItem('code'));
+    const [friendsList, setFriendsList] = useState([]);
+
+    useEffect(() => {
+        // Fetch friends list when component mounts
+        fetchFriendsList();
+    }, [roomCode]);
+
+    const fetchFriendsList = () => {
+        if (!roomCode) return; // If no room code, don't fetch
+        const url = `http://localhost:8000/api/fetch_members/?code=${roomCode}`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setFriendsList(data.names);
+        })
+        .catch((error) => {
+            console.error('Error fetching friends list: ', error);
+        });
+    };
 
     const handleLockRoom = () => {
         // Logic for locking/unlocking the room
@@ -23,33 +53,8 @@ const CreateRoom = () => {
         .catch((error) => {
             console.error('Error locking room: ', error);
         });
-
     };
 
-    const handleViewFriends = () => {
-        // Logic for viewing friends in the room
-        console.log("Viewing friends...");
-        const url = `http://localhost:8000/api/fetch_members/?code=${roomCode}`;
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            console.log(response)
-        })
-        .catch((error) => {
-            console.error('Error locking room: ', error);
-        });
-
-
-    };
-    
     return (
         <Box p={3}>
             <Typography variant="h4" gutterBottom>
@@ -60,12 +65,30 @@ const CreateRoom = () => {
                     {roomCode} {/* Display room code */}
                 </Typography>
             </Paper>
-            <Button variant="contained" color="primary" onClick={handleViewFriends} style={{ marginRight: '10px' }}>
-                View Friends in Room
+            <Button variant="contained" color="primary" onClick={fetchFriendsList} style={{ marginRight: '10px' }}>
+                Refresh Friends List
             </Button>
             <Button variant="contained" onClick={handleLockRoom}>
                 {isLocked ? 'Unlock Room' : 'Lock Room'}
             </Button>
+            <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>First Name</TableCell>
+                            <TableCell>Last Name</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {friendsList.map((names, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{names[0]}</TableCell>
+                                <TableCell>{names[1]}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 };

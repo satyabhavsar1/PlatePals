@@ -10,27 +10,26 @@ const JoinRoom = () => {
         setRoomCode(event.target.value);
     };
 
+
     const handleSubmit = (event) => {
-        // Prevent the default form submission behavior
         event.preventDefault();
+    
+        // Validation: Check if roomCode is empty or not a 6-digit number
+        if (!/^\d{6}$/.test(roomCode)) {
+            alert('Please enter a 6-digit numeric room code.');
+            return;
+        }
+    
         const userDataString = localStorage.getItem('userData');
-
-        // Parse the stringified JSON into a JavaScript object
         const userData = JSON.parse(userDataString);
-
-        // Extract firstName and lastName
         const { firstName, lastName } = userData;
-
-
-        console.log(userData)
+    
         const formData = {
             first_name: firstName,
             last_name: lastName,
             code: roomCode,
         };
-        console.log(formData)
-
-        // Make API call to add member to room
+    
         fetch('http://localhost:8000/api/add_member_to_room/', {
             method: 'POST',
             headers: {
@@ -41,33 +40,27 @@ const JoinRoom = () => {
         .then((response) => {
             if (!response.ok) {
                 if (response.headers.get('content-type')?.includes('application/json')) {
-                    // If it does, parse the JSON response and throw the error message
                     return response.json().then(errorResponse => {
-                      throw new Error(errorResponse.error || 'Unknown error occurred');
+                        throw new Error(errorResponse.error || 'Unknown error occurred');
                     });
                 }
             }
-            return response.json(); // Parse the JSON response
+            return response.json();
         })
         .then((data) => {
-            // Handle the response data
             localStorage.setItem('code', data.code);
             console.log('Room code:', data.code);
             console.log('roomcode in dashboard', data);
         })
         .catch((error) => {
             console.error('Error joining room:', error);
-            // Access the error message from the response
-            if (error!="") {
-                // Alert the error message
-                alert(error);
+            if (error.message) {
+                alert(error.message);
             } else {
-                // If the error message is not available, alert a generic message
                 alert('An error occurred while joining the room.');
             }
         });
-        
-        // Logic to handle joining the room with the entered room code
+    
         console.log("Joining room with code:", roomCode);
     };
 

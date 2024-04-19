@@ -1,20 +1,39 @@
-//2222222222
-
+// import React, { useState } from 'react'
+import './css/flashcards.css'
+// import Switch from 'react-ios-switch'
 import React, { useState, useMemo, useRef } from 'react'
 import TinderCard from 'react-tinder-card'
 
+// import Advanced from './examples/Advanced'
+// import Simple from './examples/Simple'
+
+
 const db = [
-    {
-      name: 'American Food',
-      url: '/American.jpeg'
-    },
-    {
-      name: 'Asian Food',
-      url: '/Asian.jpeg'
-    },
-  ];
-  
-function Advanced () {
+  {
+    name: 'Richard Hendricks',
+    url: './img/richard.jpg'
+  },
+  {
+    name: 'Erlich Bachman',
+    url: './img/erlich.jpg'
+  },
+  {
+    name: 'Monica Hall',
+    url: './img/monica.jpg'
+  },
+  {
+    name: 'Jared Dunn',
+    url: './img/jared.jpg'
+  },
+  {
+    name: 'Dinesh Chugtai',
+    url: './img/dinesh.jpg'
+  }
+]
+
+
+function FlashCards () {
+
   const [currentIndex, setCurrentIndex] = useState(db.length - 1)
   const [lastDirection, setLastDirection] = useState()
   // used for outOfFrame closure
@@ -86,8 +105,10 @@ function Advanced () {
             onSwipe={(dir) => swiped(dir, character.name, index)}
             onCardLeftScreen={() => outOfFrame(character.name, index)}
           >
-            <div className='card'>
-              <img src={character.url} alt={character.name} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+            <div
+              style={{ backgroundImage: 'url(' + character.url + ')' }}
+              className='card'
+            >
               <h3>{character.name}</h3>
             </div>
           </TinderCard>
@@ -109,7 +130,7 @@ function Advanced () {
       )}
     </div>
   )
+
 }
 
-export default Advanced
-
+export default FlashCards

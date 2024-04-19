@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard';
 import HomePage from './components/HomePage';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
-import Advanced from './components/Advanced'; 
+import FlashCards from './components/FlashCards'; 
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/room/create" element={<CreateRoom />} />
         <Route path="/room/join" element={<JoinRoom />} />
-        <Route path="/advanced" element={<Advanced />} />
+        <Route path="/flashcards" element={<FlashCards />} />
       </Routes>
     </Router>
   );

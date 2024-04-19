@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, SnackbarContent } from '@mui/material';
 
 const CreateRoom = () => {
     const [isLocked, setIsLocked] = useState(false);
     const [roomCode, setRoomCode] = useState(localStorage.getItem('code'));
     const [friendsList, setFriendsList] = useState([]);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
 
     useEffect(() => {
         // Fetch friends list when component mounts
         fetchFriendsList();
     }, [roomCode]);
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
 
     const fetchFriendsList = () => {
         if (!roomCode) return; // If no room code, don't fetch
@@ -20,18 +27,26 @@ const CreateRoom = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        }).then((response) => {
+            return response.json(); // Parse the JSON response
+        }).then((data) => {
+            // Handle the response data
+            if (data.success) {
+                setFriendsList(data.names);
+                setSnackbarType('success');
+                setSnackbarMessage("Firends list updated successfully");
+                setOpenSnackbar(true);
             }
-            return response.json();
-        })
-        .then((data) => {
-            setFriendsList(data.names);
-        })
-        .catch((error) => {
+            else {
+                setSnackbarType('error');
+                setSnackbarMessage(data.error);
+                setOpenSnackbar(true);
+            }
+        }).catch((error) => {
             console.error('Error fetching friends list: ', error);
+            setSnackbarType('error');
+            setSnackbarMessage('Error fetching friends list');
+            setOpenSnackbar(true);
         });
     };
 
@@ -42,16 +57,26 @@ const CreateRoom = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'code': roomCode, 'is_locked': !isLocked}),
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            body: JSON.stringify({ 'code': roomCode, 'is_locked': !isLocked }),
+        }).then((response) => {
+            return response.json(); // Parse the JSON response
+        }).then((data) => {
+            // Handle the response data
+            if (data.success) {
+                setSnackbarType('success');
+                setSnackbarMessage(data.message);
+                setIsLocked(!isLocked);
             }
-            setIsLocked(!isLocked);
-        })
-        .catch((error) => {
-            console.error('Error locking room: ', error);
+            else {
+                setSnackbarType('error');
+                setSnackbarMessage(data.error);
+            }
+            setOpenSnackbar(true);
+        }).catch((error) => {
+            console.error('Error updating room: ', error);
+            setSnackbarType('error');
+            setSnackbarMessage('Error updating room');
+            setOpenSnackbar(true);
         });
     };
 
@@ -89,6 +114,22 @@ const CreateRoom = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+            >
+                <SnackbarContent
+                    style={{ backgroundColor: snackbarType === 'error' ? '#f44336' : '#4caf50' }}
+                    message={snackbarMessage}
+                    action={
+                        <Button color="inherit" size="small" onClick={handleCloseSnackbar}>
+                            Close
+                        </Button>
+                    }
+                />
+            </Snackbar>
         </Box>
     );
 };

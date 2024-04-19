@@ -46,27 +46,23 @@ const Dashboard = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
-        })
-            .then((response) => {
-                return response.json(); // Parse the JSON response
-            })
-            .then((data) => {
-                // Handle the response data
-                if (data.success) {
-                    localStorage.setItem('code', data.code);
-                    console.log('Room code:', data.code);
-                    console.log('roomcode in dashboard', data);
-                    navigate('/room/create');
-                }
-                else {
-                    setErrorMessage(data.error);
-                    setOpenSnackbar(true);
-                }
-
-            })
-            .catch((error) => {
-                console.error('Error creating room:', error);
-            });
+        }).then((response) => {
+            return response.json(); // Parse the JSON response
+        }).then((data) => {
+            // Handle the response data
+            if (data.success) {
+                localStorage.setItem('code', data.code);
+                console.log('Room code:', data.code);
+                console.log('roomcode in dashboard', data);
+                navigate('/room/create');
+            }
+            else {
+                setErrorMessage(data.error);
+                setOpenSnackbar(true);
+            }
+        }).catch((error) => {
+            console.error('Error creating room:', error);
+        });
     };
 
     const handleJoinSubmit = () => {
@@ -85,24 +81,20 @@ const Dashboard = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
-        })
-            .then((response) => {
-                return response.json(); // Parse the JSON response
-            })
-            .then((data) => {
-                // Handle the response data
-                if (data.success) {
-                    navigate('/room/join');
-                }
-                else {
-                    setErrorMessage(data.error);
-                    setOpenSnackbar(true);
-                }
-
-            })
-            .catch((error) => {
-                console.error('Error creating room:', error);
-            });
+        }).then((response) => {
+            return response.json(); // Parse the JSON response
+        }).then((data) => {
+            // Handle the response data
+            if (data.success) {
+                navigate('/room/join');
+            }
+            else {
+                setErrorMessage(data.error);
+                setOpenSnackbar(true);
+            }
+        }).catch((error) => {
+            console.error('Error creating room:', error);
+        });
     };
 
 

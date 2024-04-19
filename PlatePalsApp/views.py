@@ -135,16 +135,16 @@ def update_room(request):
         try:
             room = Room.objects.get(code=code)
         except Room.DoesNotExist:
-            return JsonResponse({'error': 'Room not found'}, status=404)
+            return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
 
         # Update the isLocked field
         room.islocked = isLocked
         room.save()
 
         # Return a JSON response indicating success
-        return JsonResponse({'message': 'Room updated successfully'})
+        return JsonResponse({'success':True,'message': 'Room updated successfully'})
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'sucess':False,'error': 'Only POST requests are allowed'}, status=405)
 
 @api_view(['POST'])
 def add_member_to_room(request):
@@ -165,10 +165,10 @@ def add_member_to_room(request):
             print(room.islocked)
             if(room.islocked == True):
                 print(room.islocked)
-                return JsonResponse({'error': 'Room is already locked'}, status=400)
+                return JsonResponse({'success':False,'error': 'Room is already locked'}, status=400)
 
         except Room.DoesNotExist:
-            return JsonResponse({'error': 'Room not found'}, status=404)
+            return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
 
         # Fetch the user
         try:
@@ -177,16 +177,16 @@ def add_member_to_room(request):
             user = User.objects.get(first_name=first_name_query, last_name=last_name_query)
             print(user)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'User does not exist'}, status=400)
+            return JsonResponse({'success':False,'error': 'User does not exist'}, status=400)
 
         room.members.add(user)
         print(user)
         room.save()
 
         # Return a JSON response indicating success
-        return JsonResponse({'message': 'Member added successfully'})
+        return JsonResponse({'success':True,'message': 'Member added successfully'})
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
 
 
 @api_view(['GET'])
@@ -204,11 +204,11 @@ def fetch_members(request):
             print(names)
 
         except Room.DoesNotExist:
-            return JsonResponse({'error': 'Room not found'}, status=404)
+            return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
 
 
         # Return a JSON response including names
-        return JsonResponse({'names': names})
+        return JsonResponse({'success':True,'names': names})
 
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)

@@ -10,27 +10,66 @@ import TinderCard from 'react-tinder-card'
 
 const db = [
   {
-    name: 'Richard Hendricks',
-    url: './img/richard.jpg'
+    name: 'MiddleEast',
+    url: './img/MiddleEast.jpeg'
   },
   {
-    name: 'Erlich Bachman',
-    url: './img/erlich.jpg'
+    name: 'Delis',
+    url: './img/Delis.jpeg'
   },
   {
-    name: 'Monica Hall',
-    url: './img/monica.jpg'
+    name: 'Japanese',
+    url: './img/Japanese.jpeg'
   },
   {
-    name: 'Jared Dunn',
-    url: './img/jared.jpg'
+    name: 'Desserts',
+    url: './img/Desserts.jpeg'
   },
   {
-    name: 'Dinesh Chugtai',
-    url: './img/dinesh.jpg'
+    name: 'Vegan',
+    url: './img/Vegan.jpeg'
+  },
+  {
+    name: 'Vegetarian',
+    url: './img/Vegetarian.jpeg'
+  },
+  {
+    name: 'SeaFood',
+    url: './img/SeaFood.jpeg'
+  },
+  {
+    name: 'Mexican',
+    url: './img/Mexican.jpeg'
+  },
+  {
+    name: 'Brunch',
+    url: './img/Brunch.jpeg'
+  },
+  {
+    name: 'Cafe',
+    url: './img/Cafe.jpeg'
+  },
+  {
+    name: 'Asian',
+    url: './img/Asian.jpeg'
+  },
+  {
+    name: 'Italian',
+    url: './img/Italian.jpeg'
+  },
+  {
+    name: 'NightLife',
+    url: './img/NightLife.jpeg'
+  },
+  {
+    name: 'Alcohol',
+    url: './img/Asian.jpeg'
+  },
+  {
+    name: 'American',
+    url: './img/American.jpeg'
   }
 ]
-
 
 function FlashCards () {
 
@@ -45,37 +84,47 @@ function FlashCards () {
         .fill(0)
         .map((i) => React.createRef()),
     []
-  )
+  );
+  const [swipeValues, setSwipeValues] = useState([]);
+  const [showSubmitButton, setShowSubmitButton] = useState(false); // State to control the visibility of the submit button
+  const [swipeCount, setSwipeCount] = useState(0); // Track the number of swipes
 
   const updateCurrentIndex = (val) => {
-    setCurrentIndex(val)
-    currentIndexRef.current = val
-  }
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
 
-  const canGoBack = currentIndex < db.length - 1
+  const canGoBack = currentIndex < db.length - 1;
 
-  const canSwipe = currentIndex >= 0
+  const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
   const swiped = (direction, nameToDelete, index) => {
-    setLastDirection(direction)
-    updateCurrentIndex(index - 1)
-  }
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
+    setSwipeValues((prevValues) => [...prevValues, direction === 'right' ? 1 : 0]);
+    setSwipeCount((prevCount) => prevCount + 1); // Increment swipe count
+
+    if (index === db.length - 1) {
+      // Check if all cards have been swiped
+      setShowSubmitButton(true); // Show the submit button when all cards have been swiped
+    }
+  };
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)
     // handle the case in which go back is pressed before card goes outOfFrame
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard()
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
     // TODO: when quickly swipe and restore multiple times the same card,
     // it happens multiple outOfFrame events are queued and the card disappear
     // during latest swipes. Only the last outOfFrame event should be considered valid
-  }
+  };
 
   const swipe = async (dir) => {
     if (canSwipe && currentIndex < db.length) {
-      await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
+      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
-  }
+  };
 
   // increase current index and show card
   const goBack = async () => {
@@ -83,7 +132,19 @@ function FlashCards () {
     const newIndex = currentIndex + 1
     updateCurrentIndex(newIndex)
     await childRefs[newIndex].current.restoreCard()
+    // Remove the last value from swipeValues
+    setSwipeValues(prevValues => prevValues.slice(0, -1));
   }
+
+    // Function to check if all cards have been swiped
+  const checkAllSwiped = () => {
+    return currentIndex === -1;
+  };
+
+  const handleSubmit = () => {
+    // Handle submission logic here
+    console.log('Submitting swipe values:', swipeValues);
+  };
 
   return (
     <div>
@@ -95,7 +156,7 @@ function FlashCards () {
         href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
         rel='stylesheet'
       />
-      <h1>React Tinder Card</h1>
+      <h1>Swipe left for nay and right for yay</h1>
       <div className='cardContainer'>
         {db.map((character, index) => (
           <TinderCard
@@ -119,6 +180,12 @@ function FlashCards () {
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Swipe right!</button>
       </div>
+
+      {/* Conditionally render the submit container based on swipe count */}
+      <div className='submitContainer' style={{ display: swipeCount >= 15 ? 'block' : 'none' }}>
+        <button className='submitButton' onClick={handleSubmit} disabled={!showSubmitButton}>Submit</button>
+      </div>
+
       {lastDirection ? (
         <h2 key={lastDirection} className='infoText'>
           You swiped {lastDirection}
@@ -130,7 +197,6 @@ function FlashCards () {
       )}
     </div>
   )
-
 }
 
 export default FlashCards

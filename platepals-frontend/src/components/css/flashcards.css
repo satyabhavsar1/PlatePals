@@ -31,7 +31,7 @@
     width: 80vw;
     max-width: 260px;
     height: 300px;
-    box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
+    /* box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30); */
     border-radius: 20px;
     background-size: cover;
     background-position: center;
@@ -88,6 +88,31 @@
   .buttons button:hover {
     transform: scale(1.05);
   }
+
+  /* flashcards.css */
+
+/* Add styles for the submit button */
+.submitContainer {
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.submitButton {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  background-color: #9198e5; /* Match the background color of the swipe buttons */
+  transition: 200ms;
+  margin: 10px;
+  font-weight: bold;
+  width: 160px;
+  box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.10);
+}
+
+.submitButton:hover {
+  transform: scale(1.05);
+}
   
   @keyframes popup {
     0%   { transform: scale(1,1) }

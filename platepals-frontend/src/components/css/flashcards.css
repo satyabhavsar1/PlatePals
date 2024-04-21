@@ -1,4 +1,4 @@
-#root {
+.app-div {
     text-align: center;
     display: flex;
     justify-content: center;
@@ -8,7 +8,7 @@
     background: linear-gradient(white,#ff5733);
   }
   
-  #root>div {
+  .app-div>div {
     display: flex;
     flex-direction: column;
     justify-content: center;

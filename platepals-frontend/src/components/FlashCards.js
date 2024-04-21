@@ -147,6 +147,7 @@ function FlashCards () {
   };
 
   return (
+    <section className="app-div">
     <div>
       <link
         href='https://fonts.googleapis.com/css?family=Damion&display=swap'
@@ -196,6 +197,7 @@ function FlashCards () {
         </h2>
       )}
     </div>
+    </section>
   )
 }
 

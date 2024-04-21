@@ -11,7 +11,7 @@ import numpy as np
 from .models import User, Room
 from django.core.exceptions import ObjectDoesNotExist
 import random
-from django.shortcuts import get_object_or_404
+from .predictions import predict
 
 def index(request):
     return HttpResponse("Hello, world! This is my first Django web app.")
@@ -34,6 +34,13 @@ def cosine_sim(request):
     res = {"Result": result_serializable}
     json_data = json.dumps(res)
 
+    return JsonResponse(json_data,  safe=False) 
+
+def predict_result(request):
+    #data = request.GET  # Get input from the request
+    result = predict()  # Call your function with input
+    res = {"Result": result}
+    json_data = json.dumps(res)
     return JsonResponse(json_data,  safe=False)  
 
 # @api_view(['POST'])

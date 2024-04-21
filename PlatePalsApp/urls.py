@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/add_member_to_room/', views.add_member_to_room, name='add_member_to_room'),
     path('api/fetch_members/', views.fetch_members, name='fetch_members'),
     path('api/cosine_sim/', views.cosine_sim, name='cosine_sim'),
+    path('api/predict_result/', views.predict_result, name='predict_result'),
     # re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]
 

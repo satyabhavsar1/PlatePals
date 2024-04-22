@@ -208,7 +208,7 @@ def fetch_members(request):
         return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
 
 @api_view(['POST'])
-def add_ans_for_room_user(request):
+def add_ans(request):
     if request.method == 'POST':
         # Parse request body JSON data
         data = json.loads(request.body)
@@ -232,10 +232,12 @@ def add_ans_for_room_user(request):
             print(first_name_query)
             print(last_name_query)
             user = User.objects.get(first_name=first_name_query, last_name=last_name_query)
-            print(user)
         except User.DoesNotExist:
             return JsonResponse({'success':False,'error': 'User does not exist'}, status=400)
         
+        print("creating ans")
+        print("user",user)
+        print("room",room)
         ans = Answer.objects.create(room = room, user = user, answer_data=ans)
 
         # Return a JSON response indicating success
@@ -254,9 +256,12 @@ def fetch_result(request):
             print(room)
             result = room.result
             if result:
+                print(result)
                 return JsonResponse({'success':True,'result': result})
             ans_data = Answer.objects.filter(room = room)
             members = room.members.all()
+            print("ans_data", ans_data)
+            print("members", members)
             if(len(ans_data)< len(members)+1):
                 return JsonResponse({'success':False,'error': 'All members have not finished answering.'}, status=400)
             user_prefs = {}

@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
 import FlashCards from './components/FlashCards'; 
+import Loading from './components/Loading';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/room/create" element={<CreateRoom />} />
         <Route path="/room/join" element={<JoinRoom />} />
         <Route path="/flashcards" element={<FlashCards />} />
+        <Route path="/loading" element={<Loading/>} />
       </Routes>
     </Router>
   );

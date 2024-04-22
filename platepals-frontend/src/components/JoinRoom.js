@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Box, Snackbar, SnackbarContent } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const JoinRoom = () => {
     const [roomCode, setRoomCode] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success'); // Default to success
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         setRoomCode(event.target.value);
@@ -49,6 +51,7 @@ const JoinRoom = () => {
             if (data.success) {
                 setSnackbarType('success');
                 setSnackbarMessage(data.message);
+                navigate('/flashcards/')
             }
             else {
                 setSnackbarType('error');

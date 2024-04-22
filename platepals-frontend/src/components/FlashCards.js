@@ -3,6 +3,7 @@ import './css/flashcards.css'
 // import Switch from 'react-ios-switch'
 import React, { useState, useMemo, useRef } from 'react'
 import TinderCard from 'react-tinder-card'
+import { useNavigate } from 'react-router-dom';
 
 // import Advanced from './examples/Advanced'
 // import Simple from './examples/Simple'
@@ -75,6 +76,12 @@ function FlashCards () {
 
   const [currentIndex, setCurrentIndex] = useState(db.length - 1)
   const [lastDirection, setLastDirection] = useState()
+  const [roomCode, setRoomCode] = useState(localStorage.getItem('code'));
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+  const navigate = useNavigate();
+
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex)
 
@@ -143,7 +150,39 @@ function FlashCards () {
 
   const handleSubmit = () => {
     // Handle submission logic here
+
+    const userDataJSON = localStorage.getItem('userData');
+    const userData = JSON.parse(userDataJSON);
+    const firstName = userData.firstName;
+    const lastName = userData.lastName;
     console.log('Submitting swipe values:', swipeValues);
+    fetch('http://localhost:8000/api/add_ans/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'first_name': firstName, 'last_name': lastName, 'code':roomCode, 'ans':swipeValues}),
+    }).then((response) => {
+        return response.json(); // Parse the JSON response
+    }).then((data) => {
+        // Handle the response data
+        if (data.success) {
+            setSnackbarType('success');
+            setSnackbarMessage(data.message);
+            navigate('/loading')
+        }
+        else {
+            setSnackbarType('error');
+            setSnackbarMessage(data.error);
+        }
+        setOpenSnackbar(true);
+    }).catch((error) => {
+        console.error('Error adding answer: ', error);
+        setSnackbarType('error');
+        setSnackbarMessage('Error adding answer');
+        setOpenSnackbar(true);
+    });
+
   };
 
   return (

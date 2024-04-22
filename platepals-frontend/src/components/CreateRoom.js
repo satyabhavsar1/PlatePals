@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, SnackbarContent } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const CreateRoom = () => {
     const [isLocked, setIsLocked] = useState(false);
@@ -8,6 +9,7 @@ const CreateRoom = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fetch friends list when component mounts
@@ -80,7 +82,13 @@ const CreateRoom = () => {
         });
     };
 
-    return (
+    const handleStart = () => {
+        if (isLocked) {
+          // Navigate to "/flashcards"
+          navigate('/flashcards');
+        }
+      };
+        return (
         <Box p={3}>
             <Typography variant="h4" gutterBottom>
                 Your Room Code:
@@ -96,6 +104,10 @@ const CreateRoom = () => {
             <Button variant="contained" onClick={handleLockRoom}>
                 {isLocked ? 'Unlock Room' : 'Lock Room'}
             </Button>
+            <Button variant="contained" onClick={handleStart} disabled={!isLocked} style={{ marginRight: '10px' }}>
+                Start
+            </Button>
+
             <TableContainer component={Paper} style={{ marginTop: '20px' }}>
                 <Table>
                     <TableHead>

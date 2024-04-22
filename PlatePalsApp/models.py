@@ -30,3 +30,26 @@ class Room(models.Model):
     members = models.ManyToManyField(User, related_name='rooms')
     result = models.CharField(max_length=255)
     islocked = models.BooleanField(default=False) 
+    result = models.JSONField()
+
+    def save(self, *args, **kwargs):
+        # Check if json_data is None
+        if self.result is None:
+            self.result = {}  
+        elif not isinstance(self.result, (dict, list)):
+            raise ValueError("result must be of type dict or list")
+
+        super().save(*args, **kwargs)
+
+
+class Answer(models.Model):
+    class Meta:
+        app_label = 'PlatePalsApp'
+        db_table = 'answer'
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answers')
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='answers')
+    answer_data = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Answer for {self.user.user_id} in Room {self.room.code}"

@@ -63,7 +63,23 @@ def predict_restaurant(user_preferences, top_rated, df, feature_df):
             'Address': best_match.get('address', '') + str(best_match.get('postal_code', '')),
             'Similarity_Score':  similarity_score}
 
-def predict():
+def get_user_prefs(user_prefs):
+    ans = {}
+    original_indices = [1, 4, 5, 6, 7, 8, 11, 12, 16, 20, 21, 25, 26, 29, 43]        
+    for user_id in user_prefs.keys():
+        vector = user_prefs[user_id]
+        ans_vector = []
+        pos=0
+        for i in range(len(vector)):
+            if(vector[i]==1):
+                ans_vector.append(original_indices[pos])
+            pos+=1
+        ans[user_id] = ans_vector
+    return ans
+
+
+        
+def predict(user_prefs):
     directory_path = os.path.dirname(os.path.abspath(__file__))
     filename1 = 'df.pkl'
     filename2 = 'top_rated.pkl'
@@ -84,12 +100,15 @@ def predict():
     df = pd.read_pickle(file_path1)              
     top_rated = pd.read_pickle(file_path2)
     feature_df = pd.read_pickle(file_path3)
-    user_preferences = {
-        'DN7mB9u36QlCourhzbRq7A': [20, 29, 40, 8, 1, 7, 16, 27, 29, 40, 43],
-        'I6M-7LxI1By6jd8H_OneeQ': [8, 20, 35, 1, 7, 16],
-        'UkBI4VW3CwLvIgXaiiLdig': [25, 7, 26, 8, 43]
-        }
-    data=predict_restaurant(user_preferences, top_rated, df, feature_df)
+    # user_preferences = {
+    #     'DN7mB9u36QlCourhzbRq7A': [20, 29, 40, 8, 1, 7, 16, 27, 29, 40, 43],
+    #     'I6M-7LxI1By6jd8H_OneeQ': [8, 20, 35, 1, 7, 16],
+    #     'UkBI4VW3CwLvIgXaiiLdig': [25, 7, 26, 8, 43]
+    #     }
+    print("before", user_prefs)
+    user_prefs = get_user_prefs(user_prefs)
+    print("after", user_prefs)
+    data=predict_restaurant(user_prefs, top_rated, df, feature_df)
     return data
     
     

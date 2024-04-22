@@ -1,14 +1,12 @@
 from django.http import HttpResponse, JsonResponse
-from .recommend_restaurant import find_cosine_similarity
 import json
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render
 from djongo.models.fields import ObjectIdField
 import numpy as np
-from .models import User, Room
+from .models import User, Room, Answer
 from django.core.exceptions import ObjectDoesNotExist
 import random
 from .predictions import predict
@@ -24,21 +22,10 @@ def generate_unique_code():
     code_str = str(code)
     return code_str
 
-def cosine_sim(request):
-    #data = request.GET  # Get input from the request
-    result = find_cosine_similarity(request)  # Call your function with input
-    result = np.int64(result)
-
-    result_serializable = int(result)
-
-    res = {"Result": result_serializable}
-    json_data = json.dumps(res)
-
-    return JsonResponse(json_data,  safe=False) 
-
 def predict_result(request):
-    #data = request.GET  # Get input from the request
-    result = predict()  # Call your function with input
+    data = request.GET  
+    user_prefs = data.get('user_prefs')
+    result = predict(user_prefs)  
     res = {"Result": result}
     json_data = json.dumps(res)
     return JsonResponse(json_data,  safe=False)  
@@ -219,3 +206,81 @@ def fetch_members(request):
 
     else:
         return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
+
+@api_view(['POST'])
+def add_ans_for_room_user(request):
+    if request.method == 'POST':
+        # Parse request body JSON data
+        data = json.loads(request.body)
+        
+        # Extract user and room
+        first_name_query = data.get('first_name')
+        last_name_query = data.get('last_name')
+        code = data.get('code')
+        ans = data.get('ans')
+        print(first_name_query)
+        print(last_name_query)
+        print(code)
+        try:
+            room = Room.objects.get(code=code)
+            user = User.objects.get(first_name=first_name_query, last_name=last_name_query)
+        except Room.DoesNotExist:
+            return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
+
+        # Fetch the user
+        try:
+            print(first_name_query)
+            print(last_name_query)
+            user = User.objects.get(first_name=first_name_query, last_name=last_name_query)
+            print(user)
+        except User.DoesNotExist:
+            return JsonResponse({'success':False,'error': 'User does not exist'}, status=400)
+        
+        ans = Answer.objects.create(room = room, user = user, answer_data=ans)
+
+        # Return a JSON response indicating success
+        return JsonResponse({'success':True,'message': 'Answer added successfully'})
+    else:
+        return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
+
+
+@api_view(['GET'])
+def fetch_result(request):
+    if request.method == 'GET':
+        rcode = request.GET.get('code')
+        print(rcode)
+        try:
+            room = Room.objects.get(code=rcode)
+            print(room)
+            result = room.result
+            if result:
+                return JsonResponse({'success':True,'result': result})
+            ans_data = Answer.objects.filter(room = room)
+            members = room.members.all()
+            if(len(ans_data)< len(members)+1):
+                return JsonResponse({'success':False,'error': 'All members have not finished answering.'}, status=400)
+            user_prefs = {}
+            print(members)
+            for member in members:
+                # Find the Answer object for the current member, if it exists
+                member_answer = ans_data.filter(user=member).first()
+                if member_answer:
+                    user_prefs[member.user_id]=json.loads(member_answer.answer_data)
+                else:
+                    print("No answer found for member:", member)
+            admin = room.admin
+            print("admin", admin)
+            admin_answer = ans_data.filter(user=admin).first()
+            user_prefs[admin.user_id]=json.loads(admin_answer.answer_data)
+            print(user_prefs)
+            result = predict(user_prefs)
+            print(result)
+        except Room.DoesNotExist:
+            return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
+
+        # Return a JSON response including names
+        return JsonResponse({'success':True,'result': result})
+
+    else:
+        return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)
+

@@ -95,13 +95,17 @@
   margin-top: 20px; /* Adjust the margin as needed */
 }
 
+.startText {
+  font-family: Arial, Helvetica, sans-serif;
+  color:'#ff3700';
+}
 .submitButton {
   padding: 10px;
   border-radius: 5px;
   border: none;
   color: #fff;
   font-size: 18px;
-  background-color: #ed4c1f; /* Match the background color of the swipe buttons */
+  background-color: #ff3700; /* Match the background color of the swipe buttons */
   transition: 200ms;
   margin: 10px;
   font-weight: bold;

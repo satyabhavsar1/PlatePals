@@ -155,6 +155,7 @@ function FlashCards () {
     const userData = JSON.parse(userDataJSON);
     const firstName = userData.firstName;
     const lastName = userData.lastName;
+    console.log("User:", firstName, lastName);
     console.log('Submitting swipe values:', swipeValues);
     fetch('http://localhost:8000/api/add_ans/', {
         method: 'POST',
@@ -216,9 +217,9 @@ function FlashCards () {
         ))}
       </div>
       <div className='buttons'>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Swipe left!</button>
-        <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Swipe right!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3', color: canSwipe ? '#ffffff' : '#000000' }} onClick={() => swipe('left')}>Swipe left!</button>
+        <button style={{ backgroundColor: !canGoBack && '#c3c4d3', color: canGoBack ? '#ffffff' : '#000000' }} onClick={() => goBack()}>Undo swipe!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3', color: canSwipe ? '#ffffff' : '#000000' }} onClick={() => swipe('right')}>Swipe right!</button>
       </div>
 
       {/* Conditionally render the submit container based on swipe count */}

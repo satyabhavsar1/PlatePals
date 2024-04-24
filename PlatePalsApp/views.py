@@ -209,6 +209,7 @@ def fetch_members(request):
 
 @api_view(['POST'])
 def add_ans(request):
+    print("Add answer API")
     if request.method == 'POST':
         # Parse request body JSON data
         data = json.loads(request.body)

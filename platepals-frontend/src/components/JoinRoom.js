@@ -50,8 +50,9 @@ const JoinRoom = () => {
             // Handle the response data
             if (data.success) {
                 setSnackbarType('success');
+                localStorage.setItem('code', roomCode);
                 setSnackbarMessage(data.message);
-                navigate('/flashcards/')
+                navigate('/flashcards')
             }
             else {
                 setSnackbarType('error');

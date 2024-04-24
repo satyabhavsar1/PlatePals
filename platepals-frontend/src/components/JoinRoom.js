@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Box, Snackbar, SnackbarContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import './css/room.css'
 
 const JoinRoom = () => {
     const [roomCode, setRoomCode] = useState('');
@@ -70,7 +71,8 @@ const JoinRoom = () => {
     };
 
     return (
-        <Box p={3}>
+        <div className = 'room-div'>
+        <Box p={3} > 
             <Typography variant="h4" gutterBottom>
                 Join Room
             </Typography>
@@ -105,6 +107,7 @@ const JoinRoom = () => {
                 />
             </Snackbar>
         </Box>
+        </div>
     );
 };
 

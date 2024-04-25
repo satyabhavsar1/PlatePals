@@ -1,0 +1,44 @@
+.create-room-container {
+    background-color: #f0f0f0; /* Set background color */
+    padding: 20px;
+  }
+  
+  .room-code-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .room-code-paper {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .room-code {
+    font-size: 32px;
+    color: #333; /* Set color for room code */
+  }
+  
+  .refresh-button,
+  .lock-button,
+  .start-button {
+    margin-right: 10px;
+  }
+  
+  .friends-table-container {
+    margin-top: 20px;
+  }
+  
+  .table-header {
+    font-weight: bold;
+  }
+  
+  /* Optional: Button styles */
+  .Button {
+    background-color: #000; /* Black color */
+    color: #fff; /* White text color */
+  }
+  
+  .Button:hover {
+    background-color: #333; /* Darker shade of black on hover */
+  }
+  

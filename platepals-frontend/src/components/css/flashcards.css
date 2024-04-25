@@ -27,13 +27,14 @@
   .card {
     position: relative;
     background-color: #fff;
-    width: 80vw;
-    max-width: 260px;
-    height: 300px;
+    width: 250px;
+    /* max-width: 360px; */
+    height: 350px;
+    object-fit: contain;
     /* box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30); */
     border-radius: 20px;
     background-size: cover;
-    background-position: center;
+    /* background-position: centeßr; */
   }
   
   .cardContent {
@@ -61,6 +62,7 @@
     margin: 20px;
     display: flex;
     flex-wrap: wrap;
+    margin-top: 60px;
   }
   
   @media (max-width: 625px) {

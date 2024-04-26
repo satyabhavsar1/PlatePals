@@ -65,7 +65,7 @@ def predict_restaurant(user_preferences, top_rated, df, feature_df):
 
 def get_user_prefs(user_prefs):
     ans = {}
-    original_indices = [1, 4, 5, 6, 7, 8, 11, 12, 16, 20, 21, 25, 26, 29, 43]        
+    original_indices = [1, 4, 5, 6, 7, 8, 12, 16, 20, 21, 25, 26, 29, 40, 43]        
     for user_id in user_prefs.keys():
         vector = user_prefs[user_id]
         ans_vector = []

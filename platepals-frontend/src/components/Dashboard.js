@@ -2,6 +2,7 @@ import { Button, TextField, Typography, Grid, Paper, Box, Snackbar, SnackbarCont
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import './css/dashboard.css'
 
 
 const Dashboard = () => {
@@ -99,12 +100,12 @@ const Dashboard = () => {
 
 
     return (
-        <Box p={3}>
-            <Typography variant="h4" gutterBottom>
+        <Box p={3} className="background-image">
+            <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f7f6f6' }}>
                 Dashboard
             </Typography>
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold', color: '#000000' }}>
                     Welcome to your dashboard. Please enter your information below.
                 </Typography>
                 <Grid container spacing={2}>
@@ -117,6 +118,9 @@ const Dashboard = () => {
                             variant="filled"
                             value={firstName}
                             onChange={handleFirstNameChange}
+                            InputLabelProps={{
+                                style: { color: '#000000' }, // Change the color to your desired color code
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -128,14 +132,17 @@ const Dashboard = () => {
                             variant="filled"
                             value={lastName}
                             onChange={handleLastNameChange}
+                            InputLabelProps={{
+                                style: { color: '#000000' }, // Change the color to your desired color code
+                            }}
                         />
                     </Grid>
                 </Grid>
             </Paper>
-            <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={handleJoinSubmit} disabled={!isValid}>
+            <Button variant="contained" color="inherit" style={{ marginRight: '10px' }} onClick={handleJoinSubmit} disabled={!isValid}>
                 Join a Room
             </Button>
-            <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={handleCreateSubmit} disabled={!isValid}>
+            <Button variant="contained" color="inherit" style={{ marginRight: '10px' }} onClick={handleCreateSubmit} disabled={!isValid}>
                 Create a Room
             </Button>
             <Snackbar
@@ -145,7 +152,7 @@ const Dashboard = () => {
                 onClose={handleCloseSnackbar}
             >
                 <SnackbarContent
-                    style={{ backgroundColor: '#f44336' }}
+                    style={{ backgroundColor: '#ec5c38' }}
                     message={errorMessage}
                     action={
                         <Button color="inherit" size="small" onClick={handleCloseSnackbar}>

@@ -7,7 +7,6 @@
     background: linear-gradient(#fff, #999);
     background: linear-gradient(white,#ff5733);
   }
-  
   .app-div>div {
     display: flex;
     flex-direction: column;
@@ -28,13 +27,14 @@
   .card {
     position: relative;
     background-color: #fff;
-    width: 80vw;
-    max-width: 260px;
-    height: 300px;
+    width: 250px;
+    /* max-width: 360px; */
+    height: 350px;
+    object-fit: contain;
     /* box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30); */
     border-radius: 20px;
     background-size: cover;
-    background-position: center;
+    /* background-position: centeßr; */
   }
   
   .cardContent {
@@ -62,6 +62,7 @@
     margin: 20px;
     display: flex;
     flex-wrap: wrap;
+    margin-top: 60px;
   }
   
   @media (max-width: 625px) {
@@ -75,14 +76,14 @@
     padding: 10px;
     border-radius: 5px;
     border: none;
-    color: #fff;
-    font-size: 18px;
-    background-color: #9198e5;
+    color: #0e0d0d;
+    font-size: 20px;
+    background-color: #ed4c1f;
     transition: 200ms;
     margin: 10px;
     font-weight: bolder;
     width: 160px;
-    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.10);
+    box-shadow: 0px 0px 30px 0px rgba(14, 13, 13, 0.1);
   }
   
   .buttons button:hover {
@@ -96,13 +97,17 @@
   margin-top: 20px; /* Adjust the margin as needed */
 }
 
+.startText {
+  font-family: Arial, Helvetica, sans-serif;
+  color:'#ff3700';
+}
 .submitButton {
   padding: 10px;
   border-radius: 5px;
   border: none;
   color: #fff;
   font-size: 18px;
-  background-color: #9198e5; /* Match the background color of the swipe buttons */
+  background-color: #ff3700; /* Match the background color of the swipe buttons */
   transition: 200ms;
   margin: 10px;
   font-weight: bold;
@@ -123,4 +128,6 @@
     64%  { transform: scale(1,1) }
     100% { transform: scale(1,1) }
   }
+  
+
   

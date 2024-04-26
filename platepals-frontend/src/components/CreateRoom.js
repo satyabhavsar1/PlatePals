@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, SnackbarContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import './css/room.css'
 
 const CreateRoom = () => {
     const [isLocked, setIsLocked] = useState(false);
@@ -89,6 +90,7 @@ const CreateRoom = () => {
         }
       };
         return (
+        <div className = 'room-div'>
         <Box p={3}>
             <Typography variant="h4" gutterBottom>
                 Your Room Code:
@@ -143,6 +145,7 @@ const CreateRoom = () => {
                 />
             </Snackbar>
         </Box>
+        </div>
     );
 };
 

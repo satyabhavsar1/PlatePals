@@ -11,64 +11,64 @@ import { useNavigate } from 'react-router-dom';
 
 const db = [
   {
-    name: 'MiddleEast',
-    url: './img/MiddleEast.jpeg'
+    name: '',
+    url: './img/SeaFood.JPG'
   },
   {
-    name: 'Delis',
-    url: './img/Delis.jpeg'
+    name: '',
+    url: './img/Vegan.JPG'
   },
   {
-    name: 'Japanese',
-    url: './img/Japanese.jpeg'
+    name: '',
+    url: './img/Vegetarian.JPG'
   },
   {
-    name: 'Desserts',
-    url: './img/Desserts.jpeg'
+    name: '',
+    url: './img/Italian.JPG'
   },
   {
-    name: 'Vegan',
-    url: './img/Vegan.jpeg'
+    name: '',
+    url: './img/Brunch.JPG'
   },
   {
-    name: 'Vegetarian',
-    url: './img/Vegetarian.jpeg'
+    name: '',
+    url: './img/Mexican.JPG'
   },
   {
-    name: 'SeaFood',
-    url: './img/SeaFood.jpeg'
+    name: '',
+    url: './img/MiddleEast.JPG'
   },
   {
-    name: 'Mexican',
-    url: './img/Mexican.jpeg'
+    name: '',
+    url: './img/NightLife.JPG'
   },
   {
-    name: 'Brunch',
-    url: './img/Brunch.jpeg'
+    name: '',
+    url: './img/Cafe.JPG'
   },
   {
-    name: 'Cafe',
-    url: './img/Cafe.jpeg'
+    name: '',
+    url: './img/Asian.JPG'
   },
   {
-    name: 'Asian',
-    url: './img/Asian.jpeg'
+    name: '',
+    url: './img/American.JPG'
   },
   {
-    name: 'Italian',
-    url: './img/Italian.jpeg'
+    name: '',
+    url: './img/Japanese.JPG'
   },
   {
-    name: 'NightLife',
-    url: './img/NightLife.jpeg'
+    name: '',
+    url: './img/Delis.JPG'
   },
   {
-    name: 'Alcohol',
-    url: './img/Asian.jpeg'
+    name: '',
+    url: './img/Desserts.JPG'
   },
   {
-    name: 'American',
-    url: './img/American.jpeg'
+    name: '',
+    url: './img/Alcohol.JPG'
   }
 ]
 
@@ -155,6 +155,7 @@ function FlashCards () {
     const userData = JSON.parse(userDataJSON);
     const firstName = userData.firstName;
     const lastName = userData.lastName;
+    console.log("User:", firstName, lastName);
     console.log('Submitting swipe values:', swipeValues);
     fetch('http://localhost:8000/api/add_ans/', {
         method: 'POST',
@@ -216,9 +217,9 @@ function FlashCards () {
         ))}
       </div>
       <div className='buttons'>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Swipe left!</button>
-        <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Swipe right!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3', color: canSwipe ? '#ffffff' : '#000000' }} onClick={() => swipe('left')}>Swipe left!</button>
+        <button style={{ backgroundColor: !canGoBack && '#c3c4d3', color: canGoBack ? '#ffffff' : '#000000' }} onClick={() => goBack()}>Undo swipe!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3', color: canSwipe ? '#ffffff' : '#000000' }} onClick={() => swipe('right')}>Swipe right!</button>
       </div>
 
       {/* Conditionally render the submit container based on swipe count */}

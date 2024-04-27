@@ -2,6 +2,9 @@ import { Button, TextField, Typography, Grid, Paper, Box, Snackbar, SnackbarCont
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import './css/dashboard.css'
+import config from '../Config/config.js';
+const apiUrl = config.apiUrl;
 import './css/room.css'
 
 const Dashboard = () => {
@@ -40,7 +43,7 @@ const Dashboard = () => {
         };
 
         // Make API call to create room
-        fetch('http://localhost:8000/api/create_room/', {
+        fetch(apiUrl+'api/create_room/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -48,7 +48,7 @@ const Loading = () => {
                 {result !== '' && (
                 <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #ced4da' }}>
                     <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia', marginBottom: '10px' }}>
-                        Result
+                        Restaurant
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia', marginBottom: '5px' }}>
                         Name: {result}

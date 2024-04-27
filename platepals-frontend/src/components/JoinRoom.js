@@ -73,7 +73,7 @@ const JoinRoom = () => {
     return (
         <div className = 'room-div'>
         <Box p={3} > 
-            <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia'}}>
                 Join Room
             </Typography>
             <form onSubmit={handleSubmit}>
@@ -86,7 +86,7 @@ const JoinRoom = () => {
                     onChange={handleInputChange}
                     style={{ marginBottom: '20px' }}
                 />
-                <Button variant="contained" color="primary" type="submit">
+                <Button variant="contained" color="primary" type="submit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                     Submit
                 </Button>
             </form>

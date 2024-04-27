@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/dashboard.css'
 import config from '../Config/config.js';
 const apiUrl = config.apiUrl;
+import './css/room.css'
 
 const Dashboard = () => {
     const [firstName, setFirstName] = useState('');
@@ -101,16 +102,17 @@ const Dashboard = () => {
 
 
     return (
-        <Box p={3} className="background-image">
-            <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f7f6f6' }}>
+        <div className = 'room-div'>
+        <Box p={3} >
+            <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia'}}>
                 Dashboard
             </Typography>
-            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
-                <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold', color: '#000000' }}>
+            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px', maxWidth: '300px' }}>
+                <Typography variant="body1" gutterBottom style={{fontWeight: 'bold', color: '#000000' }}>
                     Welcome to your dashboard. Please enter your information below.
                 </Typography>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={12}>
                         <TextField
                             fullWidth
                             required
@@ -120,11 +122,11 @@ const Dashboard = () => {
                             value={firstName}
                             onChange={handleFirstNameChange}
                             InputLabelProps={{
-                                style: { color: '#000000' }, // Change the color to your desired color code
+                                style: { color: '#000000' }, 
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={12}>
                         <TextField
                             fullWidth
                             required
@@ -134,18 +136,20 @@ const Dashboard = () => {
                             value={lastName}
                             onChange={handleLastNameChange}
                             InputLabelProps={{
-                                style: { color: '#000000' }, // Change the color to your desired color code
+                                style: { color: '#000000' }, 
                             }}
                         />
                     </Grid>
                 </Grid>
             </Paper>
-            <Button variant="contained" color="inherit" style={{ marginRight: '10px' }} onClick={handleJoinSubmit} disabled={!isValid}>
+            <Box display={isValid ? 'flex' : 'none'} justifyContent="space-between">
+            <Button variant="contained" color="inherit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff'}} onClick={handleJoinSubmit}>
                 Join a Room
             </Button>
-            <Button variant="contained" color="inherit" style={{ marginRight: '10px' }} onClick={handleCreateSubmit} disabled={!isValid}>
+            <Button variant="contained" color="inherit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff' }} onClick={handleCreateSubmit}>
                 Create a Room
             </Button>
+            </Box>
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={openSnackbar}
@@ -163,6 +167,7 @@ const Dashboard = () => {
                 />
             </Snackbar>
         </Box>
+        </div>
     );
 }
 

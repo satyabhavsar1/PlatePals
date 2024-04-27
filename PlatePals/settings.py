@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+import certifi
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-#aza2nx8dcpgw@i*hxzhwcoscxjb!h(&npif44v^a(l86!iv^2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['guarded-plains-79333-63b9d2136357.herokuapp.com']
+ALLOWED_HOSTS = ['guarded-plains-79333-63b9d2136357.herokuapp.com', 'localhost']
 
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'static'),
@@ -66,10 +67,6 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',  # Add the URL where your React app is hosted
-    # Add other allowed origins if needed
-]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -129,6 +126,7 @@ DATABASES = {
             'password': os.getenv('MONGO_DB_PASSWORD'),
             'authSource': 'admin',  # Or your authentication database
             # Other optional parameters like port, authentication mechanism, etc.
+            'tlsCAFile':certifi.where()
         }
     }
 }

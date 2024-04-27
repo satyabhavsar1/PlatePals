@@ -28,8 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'frontend_build'),  # Add this line
+    # os.path.join(BASE_DIR, 'static'),
+    # os.path.join(BASE_DIR, 'frontend_build'),  # Add this line
 ]
 
 # Application definition

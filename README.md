@@ -1,1 +1,1 @@
-# PlatePals
+![Logo](Logo.png)

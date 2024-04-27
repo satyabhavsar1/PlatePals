@@ -1,0 +1,16 @@
+.room-div {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+    background: linear-gradient(#fff, #999);
+    background: linear-gradient(white,#ff5733);
+  }
+  
+.room-div>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }

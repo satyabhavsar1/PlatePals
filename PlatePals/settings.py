@@ -9,12 +9,12 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# print("BASE_DIR",BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -27,8 +27,34 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'frontend_build'),  # Add this line
+]
 
 # Application definition
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+
+]
+
+CORS_ALLOW_HEADERS = [
+    'Accept',
+    'Accept-Encoding',
+    'Authorization',
+    'Content-Type',
+    'Origin',
+    'Referer',
+    'User-Agent',
+]
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,9 +63,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # Add the URL where your React app is hosted
+    # Add other allowed origins if needed
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    # other middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,7 +88,7 @@ ROOT_URLCONF = 'PlatePals.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend_build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +101,16 @@ TEMPLATES = [
     },
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    # Add other allowed origins if needed
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    # Add other allowed origins if needed
+]
+
 WSGI_APPLICATION = 'PlatePals.wsgi.application'
 
 
@@ -74,9 +118,16 @@ WSGI_APPLICATION = 'PlatePals.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {
+        'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': os.getenv('MONGO_DB_URI'),
+            'username': os.getenv('MONGO_DB_USERNAME'),
+            'password': os.getenv('MONGO_DB_PASSWORD'),
+            'authSource': 'admin',  # Or your authentication database
+            # Other optional parameters like port, authentication mechanism, etc.
+        }
     }
 }
 

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+import certifi
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,6 +128,7 @@ DATABASES = {
             'password': os.getenv('MONGO_DB_PASSWORD'),
             'authSource': 'admin',  # Or your authentication database
             # Other optional parameters like port, authentication mechanism, etc.
+            'tlsCAFile':certifi.where()
         }
     }
 }

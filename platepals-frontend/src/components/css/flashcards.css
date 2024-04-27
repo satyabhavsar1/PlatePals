@@ -5,13 +5,18 @@
     width: 100vw;
     min-height: 100vh;
     background: linear-gradient(#fff, #999);
-    background: linear-gradient(white,#ff5733);
+    background: linear-gradient(white,#f9604c);
   }
   .app-div>div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .swipe-text {
+    font-family: 'Your Chosen Font', Georgia; 
+    color: #f9604c
   }
   
   .swipe {
@@ -56,6 +61,7 @@
     color: #fff;
     animation-name: popup;
     animation-duration: 800ms;
+    font-family: 'Your Chosen Font', Georgia; 
   }
   
   .buttons {
@@ -78,7 +84,7 @@
     border: none;
     color: #0e0d0d;
     font-size: 20px;
-    background-color: #ed4c1f;
+    background-color: #f9604c;
     transition: 200ms;
     margin: 10px;
     font-weight: bolder;
@@ -107,7 +113,7 @@
   border: none;
   color: #fff;
   font-size: 18px;
-  background-color: #ff3700; /* Match the background color of the swipe buttons */
+  background-color: #f9604c; /* Match the background color of the swipe buttons */
   transition: 200ms;
   margin: 10px;
   font-weight: bold;

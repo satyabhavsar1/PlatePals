@@ -5,13 +5,26 @@ from sklearn.metrics.pairwise import cosine_similarity
 import os
 import subprocess
 
-def file_check(path,name):
+def download_file(filename, output_dir='PlatePalsApp/'):
+    file_map = {
+        'df.pkl': '1guiGVN0x8Oc_olsC-8E6k5Jtnd3UJwBe',
+        'top_rated.pkl': '1MNz1r-lFShjTHxL6aweP9bBq5MqioMiE',
+        'feature_df.pkl': '1enK0oq7sKly0YZ4HDHZXCmJpLphijU8n',
+    }
+    file_id = file_map.get(filename)
+    if file_id:
+        command = f"gdown --output {output_dir}/{filename} https://drive.google.com/uc?id={file_id}"
+        subprocess.run(command, shell=True)
+    else:
+        print(f"File '{filename}' not found in file_map.")
+
+def file_check_or_download(path,name):
   if os.path.exists(path):
     print("File exists - ",name)
     return True
   else:
-    print("File does not exist - ", name)
-    return False
+    download_file(name)
+    return True
 
 def predict_restaurant(user_preferences, top_rated, df, feature_df):
     
@@ -87,15 +100,9 @@ def predict(user_prefs):
     file_path1 = os.path.join(directory_path, filename1)
     file_path2 = os.path.join(directory_path, filename2)
     file_path3 = os.path.join(directory_path, filename3)
-    fc1=file_check(file_path1,filename1)
-    if not fc1:
-        return {'error': filename1+' - File does not exist'}
-    fc2=file_check(file_path2,filename2)
-    if not fc2:
-        return {'error': filename2+' - File does not exist'}
-    fc3=file_check(file_path3,filename3)
-    if not fc3:
-        return {'error': filename3+' - File does not exist'}
+    fc1=file_check_or_download(file_path1,filename1)
+    fc2=file_check_or_download(file_path2,filename2)
+    fc3=file_check_or_download(file_path3,filename3)
         
     df = pd.read_pickle(file_path1)              
     top_rated = pd.read_pickle(file_path2)

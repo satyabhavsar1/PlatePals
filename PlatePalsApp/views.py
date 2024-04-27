@@ -173,6 +173,10 @@ def add_member_to_room(request):
         except User.DoesNotExist:
             return JsonResponse({'success':False,'error': 'User does not exist'}, status=400)
 
+        # Check if the user is already a member of the room
+        if user in room.members.all():
+            return JsonResponse({'success': False, 'error': 'User is already a member of the room'}, status=400)
+
         room.members.add(user)
         print(user)
         room.save()

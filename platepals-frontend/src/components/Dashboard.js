@@ -14,17 +14,19 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setIsValid(firstName.trim() !== '' && lastName.trim() !== '');
+        setIsValid(firstName.trim().toLowerCase() !== '' && lastName.trim().toLowerCase() !== '');
     }, [firstName, lastName]);
 
     const handleFirstNameChange = (event) => {
         setFirstName(event.target.value);
-        localStorage.setItem('userData', JSON.stringify({ firstName: event.target.value, lastName }));
+        const lastNameLower =  lastName.trim().toLowerCase();
+        localStorage.setItem('userData', JSON.stringify({ firstName: event.target.value.trim().toLowerCase(), lastNameLower }));
     };
 
     const handleLastNameChange = (event) => {
         setLastName(event.target.value);
-        localStorage.setItem('userData', JSON.stringify({ firstName, lastName: event.target.value }));
+        const firstNameLower = firstName.trim().toLowerCase();
+        localStorage.setItem('userData', JSON.stringify({ firstNameLower, lastName: event.target.value.trim().toLowerCase() }));
     };
 
     const handleCloseSnackbar = () => {
@@ -33,11 +35,13 @@ const Dashboard = () => {
 
     const handleCreateSubmit = () => {
         if (!isValid) return; // Prevent submission if fields are not valid
+        const firstNameLower = firstName.trim().toLowerCase();
+        const lastNameLower =  lastName.trim().toLowerCase();
 
-        localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
+        localStorage.setItem('userData', JSON.stringify({ firstNameLower, lastNameLower }));
         const formData = {
-            first_name: firstName,
-            last_name: lastName,
+            first_name: firstNameLower,
+            last_name: lastNameLower,
         };
 
         // Make API call to create room
@@ -68,11 +72,13 @@ const Dashboard = () => {
 
     const handleJoinSubmit = () => {
         if (!isValid) return; // Prevent submission if fields are not valid
+        const firstNameLower = firstName.trim().toLowerCase();
+        const lastNameLower =  lastName.trim().toLowerCase();
 
         localStorage.setItem('userData', JSON.stringify({ firstName, lastName }));
         const formData = {
-            first_name: firstName,
-            last_name: lastName,
+            first_name: firstNameLower,
+            last_name: lastNameLower,
         };
 
         // Make API call to create room

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#aza2nx8dcpgw@i*hxzhwcoscxjb!h(&npif44v^a(l86!iv^2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['guarded-plains-79333-63b9d2136357.herokuapp.com', 'localhost']
 
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'static'),
@@ -104,11 +104,13 @@ TEMPLATES = [
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'https://platepals001-a47fe3bf93cd.herokuapp.com'
     # Add other allowed origins if needed
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://platepals001-a47fe3bf93cd.herokuapp.com'
     # Add other allowed origins if needed
 ]
 

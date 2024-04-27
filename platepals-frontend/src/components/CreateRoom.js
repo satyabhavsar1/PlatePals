@@ -37,7 +37,7 @@ const CreateRoom = () => {
             if (data.success) {
                 setFriendsList(data.names);
                 setSnackbarType('success');
-                setSnackbarMessage("Firends list updated successfully");
+                setSnackbarMessage("Friends list updated successfully");
                 setOpenSnackbar(true);
             }
             else {

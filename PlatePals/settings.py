@@ -67,10 +67,6 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',  # Add the URL where your React app is hosted
-    # Add other allowed origins if needed
-]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

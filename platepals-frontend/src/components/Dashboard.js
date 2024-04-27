@@ -145,11 +145,11 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
             </Paper>
-            <Box display="flex" justifyContent="space-between">
-            <Button variant="contained" color="inherit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff'}} onClick={handleJoinSubmit} disabled={!isValid}>
+            <Box display={isValid ? 'flex' : 'none'} justifyContent="space-between">
+            <Button variant="contained" color="inherit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff'}} onClick={handleJoinSubmit}>
                 Join a Room
             </Button>
-            <Button variant="contained" color="inherit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff' }} onClick={handleCreateSubmit} disabled={!isValid}>
+            <Button variant="contained" color="inherit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff' }} onClick={handleCreateSubmit}>
                 Create a Room
             </Button>
             </Box>

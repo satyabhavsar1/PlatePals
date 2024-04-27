@@ -92,7 +92,7 @@ const CreateRoom = () => {
         return (
         <div className = 'room-div'>
         <Box p={3}>
-            <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia'}}>
                 Your Room Code:
             </Typography>
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
@@ -100,13 +100,13 @@ const CreateRoom = () => {
                     {roomCode} {/* Display room code */}
                 </Typography>
             </Paper>
-            <Button variant="contained" color="primary" onClick={fetchFriendsList} style={{ marginRight: '10px' }}>
+            <Button variant="contained" color="primary" onClick={fetchFriendsList} style={{ marginRight: '10px', marginLeft: '5px', marginBottom: '10px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                 Refresh Friends List
             </Button>
-            <Button variant="contained" onClick={handleLockRoom}>
+            <Button variant="contained" onClick={handleLockRoom} style={{ marginRight: '10px', marginLeft: '5px',  marginBottom: '10px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                 {isLocked ? 'Unlock Room' : 'Lock Room'}
             </Button>
-            <Button variant="contained" onClick={handleStart} disabled={!isLocked} style={{ marginRight: '10px' }}>
+            <Button variant="contained" onClick={handleStart} disabled={!isLocked} style={{ marginRight: '10px', marginLeft: '5px',  marginBottom: '10px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                 Start
             </Button>
 

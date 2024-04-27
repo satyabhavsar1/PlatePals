@@ -55,30 +55,33 @@
     margin: 0; /* Remove margin */
     padding-top: 50px;
     margin-bottom: 20px;
-    color: #ff5733; /* Adjust text color */
+    color: #f9604c; /* Adjust text color */
     text-shadow: 2px 2px 4px rgba(211, 64, 64, 0.5); /* Add text shadow */
+    font-family: Roboto;
   }
   
   .home-subtitle {
     font-size: 1.5rem;
     margin-bottom: 50px;
-    color: #de8c8c; /* Adjust text color */
+    color: #f9604c; /* Adjust text color */
+    font-family: Roboto;
+    font-weight: bold;
   }
   
   /* Style Button */
   .Button {
-    margin-top: 30px;
+    margin-top: 1000px;
   }
   
   .Button-root {
-    background-color: #ec5c38; /* Change button color */
-    color: #c47b7b; /* Change text color */
+    background-color: #f9604c; /* Change button color */
+    color: #f9604c; /* Change text color */
     border-radius: 17px; /* Adjust border radius */
     padding: 12px 24px; /* Adjust padding */
   }
   
   .Button-root:hover {
-    background-color: #c55764; /* Change hover color */
+    background-color: #f9604c; /* Change hover color */
   }
 
 

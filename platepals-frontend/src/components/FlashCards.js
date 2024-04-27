@@ -197,7 +197,7 @@ function FlashCards () {
         href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
         rel='stylesheet'
       />
-      <h1>Swipe left for nay and right for yay</h1>
+      <h1 className="swipe-text">Swipe left for nay and right for yay</h1>
       <div className='cardContainer'>
         {db.map((character, index) => (
           <TinderCard

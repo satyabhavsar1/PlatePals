@@ -6,6 +6,7 @@ import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableConta
 const Loading = () => {
     const [roomCode, setRoomCode] = useState(localStorage.getItem('code'));
     const [result, setResult] = useState(''); 
+    const [resultAddress, setResultAddress] = useState(''); 
     const handleRefresh = () => {
         const url = `http://localhost:8000/api/fetch_result/?code=${roomCode}`;
 
@@ -20,6 +21,7 @@ const Loading = () => {
             if (data.success) {
                 console.log(data);
                 setResult(data.result.Name);
+                setResultAddress(data.result.Address);
             }
            
         }).catch((error) => {
@@ -42,6 +44,7 @@ const Loading = () => {
          {result !== '' && (
                 <div>
                     <p>{result}</p>
+                    <p>Address:{resultAddress}</p>
                 </div>
             )}
     </section>

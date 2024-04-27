@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './css/dashboard.css'
 import config from '../Config/config.js';
-const apiUrl = config.apiUrl;
 import './css/room.css'
+
+const apiUrl = config.apiUrl;
 
 const Dashboard = () => {
     const [firstName, setFirstName] = useState('');

@@ -79,7 +79,7 @@ const Dashboard = () => {
         };
 
         // Make API call to create room
-        fetch('http://localhost:8000/api/join_room_check_user/', {
+        fetch(apiUrl+'api/join_room_check_user/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

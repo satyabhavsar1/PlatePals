@@ -3,13 +3,15 @@ import './css/loading.css';
 import { useState, useMemo, useRef } from 'react'
 import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, SnackbarContent } from '@mui/material';
 import './css/room.css'
+import config from '../Config/config.js';
 
+const apiUrl = config.apiUrl;
 const Loading = () => {
     const [roomCode, setRoomCode] = useState(localStorage.getItem('code'));
     const [result, setResult] = useState(''); 
     const [resultAddress, setResultAddress] = useState(''); 
     const handleRefresh = () => {
-        const url = `http://localhost:8000/api/fetch_result/?code=${roomCode}`;
+        const url = apiUrl+`api/fetch_result/?code=${roomCode}`;
 
         fetch(url, {
             method: 'GET',

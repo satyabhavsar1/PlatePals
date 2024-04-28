@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Typography, TextField, Button, Box, Snackbar, SnackbarContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './css/room.css'
+import config from '../Config/config.js';
 
+const apiUrl = config.apiUrl;
 const JoinRoom = () => {
     const [roomCode, setRoomCode] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -39,7 +41,7 @@ const JoinRoom = () => {
             code: roomCode,
         };
     
-        fetch('http://localhost:8000/api/add_member_to_room/', {
+        fetch(apiUrl+'api/add_member_to_room/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

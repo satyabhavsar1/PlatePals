@@ -2,7 +2,9 @@ import React from 'react';
 // import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 import './css/HomePage.css'
 import Button from '@mui/material/Button';
+import config from '../Config/config.js';
 
+const apiUrl = config.apiUrl;
 const HomePage = () => {
     return (
       <div className="home-container">

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Typography, TextField, Button, Box, Snackbar, SnackbarContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './css/room.css'
+import config from '../Config/config.js';
 
+const apiUrl = config.apiUrl;
 const JoinRoom = () => {
     const [roomCode, setRoomCode] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -39,7 +41,7 @@ const JoinRoom = () => {
             code: roomCode,
         };
     
-        fetch('http://localhost:8000/api/add_member_to_room/', {
+        fetch(apiUrl+'api/add_member_to_room/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +75,7 @@ const JoinRoom = () => {
     return (
         <div className = 'room-div'>
         <Box p={3} > 
-            <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia'}}>
                 Join Room
             </Typography>
             <form onSubmit={handleSubmit}>
@@ -86,7 +88,7 @@ const JoinRoom = () => {
                     onChange={handleInputChange}
                     style={{ marginBottom: '20px' }}
                 />
-                <Button variant="contained" color="primary" type="submit">
+                <Button variant="contained" color="primary" type="submit" style={{ marginRight: '10px', marginLeft: '5px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                     Submit
                 </Button>
             </form>

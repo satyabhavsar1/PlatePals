@@ -4,7 +4,9 @@ import './css/flashcards.css'
 import React, { useState, useMemo, useRef } from 'react'
 import TinderCard from 'react-tinder-card'
 import { useNavigate } from 'react-router-dom';
+import config from '../Config/config.js';
 
+const apiUrl = config.apiUrl;
 // import Advanced from './examples/Advanced'
 // import Simple from './examples/Simple'
 
@@ -157,7 +159,7 @@ function FlashCards () {
     const lastName = userData.lastName;
     console.log("User:", firstName, lastName);
     console.log('Submitting swipe values:', swipeValues);
-    fetch('http://localhost:8000/api/add_ans/', {
+    fetch(apiUrl+'api/add_ans/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -197,7 +199,7 @@ function FlashCards () {
         href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
         rel='stylesheet'
       />
-      <h1>Swipe left for nay and right for yay</h1>
+      <h1 className="swipe-text">Swipe left for nay and right for yay</h1>
       <div className='cardContainer'>
         {db.map((character, index) => (
           <TinderCard

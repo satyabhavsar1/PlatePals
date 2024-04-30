@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Button, Paper, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, SnackbarContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './css/room.css'
+import config from '../Config/config.js';
 
+const apiUrl = config.apiUrl;
 const CreateRoom = () => {
     const [isLocked, setIsLocked] = useState(false);
     const [roomCode, setRoomCode] = useState(localStorage.getItem('code'));
@@ -23,7 +25,7 @@ const CreateRoom = () => {
 
     const fetchFriendsList = () => {
         if (!roomCode) return; // If no room code, don't fetch
-        const url = `http://localhost:8000/api/fetch_members/?code=${roomCode}`;
+        const url = apiUrl+`api/fetch_members/?code=${roomCode}`;
 
         fetch(url, {
             method: 'GET',
@@ -37,7 +39,7 @@ const CreateRoom = () => {
             if (data.success) {
                 setFriendsList(data.names);
                 setSnackbarType('success');
-                setSnackbarMessage("Firends list updated successfully");
+                setSnackbarMessage("Friends list updated successfully");
                 setOpenSnackbar(true);
             }
             else {
@@ -55,7 +57,7 @@ const CreateRoom = () => {
 
     const handleLockRoom = () => {
         // Logic for locking/unlocking the room
-        fetch('http://localhost:8000/api/update_room/', {
+        fetch(apiUrl+'api/update_room/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,7 +94,7 @@ const CreateRoom = () => {
         return (
         <div className = 'room-div'>
         <Box p={3}>
-            <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', color: '#f9604c', fontFamily: 'Your Chosen Font, Georgia'}}>
                 Your Room Code:
             </Typography>
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
@@ -100,13 +102,13 @@ const CreateRoom = () => {
                     {roomCode} {/* Display room code */}
                 </Typography>
             </Paper>
-            <Button variant="contained" color="primary" onClick={fetchFriendsList} style={{ marginRight: '10px' }}>
+            <Button variant="contained" color="primary" onClick={fetchFriendsList} style={{ marginRight: '10px', marginLeft: '5px', marginBottom: '10px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                 Refresh Friends List
             </Button>
-            <Button variant="contained" onClick={handleLockRoom}>
+            <Button variant="contained" onClick={handleLockRoom} style={{ marginRight: '10px', marginLeft: '5px',  marginBottom: '10px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                 {isLocked ? 'Unlock Room' : 'Lock Room'}
             </Button>
-            <Button variant="contained" onClick={handleStart} disabled={!isLocked} style={{ marginRight: '10px' }}>
+            <Button variant="contained" onClick={handleStart} disabled={!isLocked} style={{ marginRight: '10px', marginLeft: '5px',  marginBottom: '10px', backgroundColor: '#f9604c', color: '#ffffff'}}>
                 Start
             </Button>
 

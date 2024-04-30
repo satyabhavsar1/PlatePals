@@ -7,6 +7,8 @@ import JoinRoom from './components/JoinRoom';
 import FlashCards from './components/FlashCards'; 
 import Loading from './components/Loading';
 
+  // "start:l": "REACT_APP_ENV=localhost react-scripts start",
+    // "start:lw": "SET REACT_APP_ENV=localhost&& react-scripts start",
 function App() {
   return (
     <Router>

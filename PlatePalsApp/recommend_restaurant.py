@@ -3,19 +3,31 @@ import pandas as pd
 import csv
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from django.db import connection
+from django.db.utils import OperationalError
+from .models import User  # Import your Django models
 
+import os
 
 # cosine similarity
-def cosine_sim():
+def find_cosine_similarity(request):
+  request_headers = request.headers
 
   feature_cols = [5, 10, 39, 36, 40, 18, 35, 6, 27, 12, 4, 22, 44]
   num_vectors = 5
   num_features_selected = 10
   columns_to_extract = [i for i in range(3,60)]
+  print("Request Headers:")
+  for header, value in request_headers.items():
+      print(f"{header}: {value}")
+
 
   vectors = np.zeros((num_vectors, len(columns_to_extract)))  # Match the number of columns in restaurant_preferences
-  updated_sf = pd.read_csv('updated_sf.csv')
+  directory_path = os.path.dirname(os.path.abspath(__file__))
+  filename = 'updated_sf.csv'
+  file_path = os.path.join(directory_path, filename)
 
+  updated_sf = pd.read_csv(file_path)
   # Iterate over each vector
   for i in range(num_vectors):
       # Randomly select 10 feature indices
@@ -27,7 +39,7 @@ def cosine_sim():
   print(vectors)
   group_vector = vectors.sum(axis=0)
   print(group_vector)
-
+  check_database_connection()
   # Convert similarity scores to DataFrame for better visualization
   restaurant_preferences = updated_sf.drop(columns=['ID', 'Restaurant'])
   #print(restaurant_preferences.iloc[0])
@@ -44,3 +56,14 @@ def cosine_sim():
   # Recommendation
   recommended_restaurant = ranked_restaurants.index[0]
   return recommended_restaurant
+
+def check_database_connection():
+    try:
+        # Query the database by fetching some data using Django ORM
+        user_count = User.objects.count()
+
+        # If the query executes without error, the connection is successful
+        print("Connection to the database is successful!")
+    except Exception as e:
+        # If an exception occurs, print the error message
+        print("Failed to connect to the database:", e)

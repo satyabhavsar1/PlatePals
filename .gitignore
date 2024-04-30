@@ -11,6 +11,7 @@ media
 **/build
 # Backup files # 
 *.bak 
+myprojectenv
 
 # If you are using PyCharm # 
 # User-specific stuff

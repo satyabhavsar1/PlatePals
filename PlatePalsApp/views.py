@@ -284,6 +284,12 @@ def fetch_result(request):
             user_prefs[admin.user_id]=json.loads(admin_answer.answer_data)
             print(user_prefs)
             result = predict(user_prefs)
+            result_success=False
+            if result['success']:
+                room.result = result
+                room.save()
+                result_success=result['success']
+            print("result_success", result_success)
             print(result)
             room.result=result
             room.save()
@@ -291,7 +297,7 @@ def fetch_result(request):
             return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
 
         # Return a JSON response including names
-        return JsonResponse({'success':True,'result': result})
+        return JsonResponse({'success':result_success,'result': result})
 
     else:
         return JsonResponse({'success':False,'error': 'Only POST requests are allowed'}, status=405)

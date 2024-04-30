@@ -21,9 +21,9 @@ def file_check_or_download(path,name):
   if os.path.exists(path):
     print("File exists - ",name)
     return True
-  else:
-    download_file(name)
-    return True
+#   else:
+#     download_file(name)
+#     return True
 
 def predict_restaurant(user_preferences, top_rated, feature_df):
     

@@ -63,7 +63,8 @@ def predict_restaurant(user_preferences, top_rated, feature_df):
         best_match = filtered_restaurants.iloc[index]
         similarity_score = similarities[index]
 
-        return {'Name': best_match['name'], 
+        return {'success':True,
+                'Name': best_match['name'], 
                 'Business_id' : best_match['business_id'],
                 'Address': best_match.get('address', '') + str(best_match.get('postal_code', '')),
                 'Similarity_Score':  similarity_score}
@@ -91,12 +92,13 @@ def predict_restaurant(user_preferences, top_rated, feature_df):
         random_rest = filtered_restaurants.sample(n=1)
         
         return {
+        'success':True,
         'Name': random_rest['name'].values[0], 
         'Business_id': random_rest['business_id'].values[0],
         'Address': str(random_rest.get('address', '').values[0]) + str(random_rest.get('postal_code', '').values[0]),
         'Similarity_Score': 0}
     
-    
+
 def get_user_prefs(user_prefs):
     ans = {}
     original_indices = [1, 4, 5, 6, 7, 8, 12, 16, 20, 21, 25, 26, 29, 40, 43]    
@@ -136,6 +138,6 @@ def predict(user_prefs):
         data=predict_restaurant(user_prefs, top_rated, feature_df)
         return data
     else:
-        return {'sucess': False }
+        return {'success': False }
         
         

@@ -7,8 +7,8 @@ import subprocess
 
 def download_file(filename, output_dir='PlatePalsApp/'):
     file_map = {
-        'top_rated.pkl': '1UF6f7F0ePQTHUWs4TA-2rB26v5bvsF9y',
-        'feature_df.pkl': '1K2XO94BYsT5uN_d6M_ASaOOlXxFEgGFG',
+        'top_rated.pkl': '1upcA4TgP3lpAEvMBDmk7geLWXFC4tMbo',
+        'feature_df.pkl': '1hnUr7191fkTMPYvir2fldmyMpEqJV1fT',
     }
     file_id = file_map.get(filename)
     if file_id:

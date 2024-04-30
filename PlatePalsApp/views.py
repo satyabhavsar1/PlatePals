@@ -285,6 +285,8 @@ def fetch_result(request):
             print(user_prefs)
             result = predict(user_prefs)
             print(result)
+            room.result=result
+            room.save()
         except Room.DoesNotExist:
             return JsonResponse({'success':False,'error': 'Room not found'}, status=404)
 

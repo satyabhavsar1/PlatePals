@@ -26,57 +26,77 @@ def file_check_or_download(path,name):
 
 def predict_restaurant(user_preferences, top_rated, feature_df):
     
-    preference_vector = np.zeros(46) 
-    for prefs in user_preferences.values():
-        for feature in prefs:
-            preference_index = int(feature)
-            preference_vector[preference_index] += 1
+    try:
+        preference_vector = np.zeros(46) 
+        for prefs in user_preferences.values():
+            for feature in prefs:
+                preference_index = int(feature)
+                preference_vector[preference_index] += 1
 
-    original_indices = [1, 4, 5, 6, 7, 8, 12, 16, 20, 21, 25, 26, 29, 40, 43]        
-    preference_vector = preference_vector[original_indices]
-    # Normalize preference vector to weight preferences proportionally
-    preference_vector /= max(preference_vector)
-    all_top_businesses = set()
-    for user_id in user_preferences.keys():
-        if user_id in top_rated['user_id'].values:
-            user_top_businesses = top_rated.loc[top_rated['user_id'] == user_id, 'top_businesses'].values[0]
-        else:
-            print(f"No data available for user_id {user_id}")
-            user_top_businesses = top_rated[top_rated['user_id'] == 'new_user']
-        all_top_businesses.update(user_top_businesses)
+        original_indices = [1, 4, 5, 6, 7, 8, 12, 16, 20, 21, 25, 26, 29, 40, 43]        
+        preference_vector = preference_vector[original_indices]
+        # Normalize preference vector to weight preferences proportionally
+        preference_vector /= max(preference_vector)
+        valid_businesses = set()
+        for user_id in user_preferences.keys():
+            if user_id in top_rated['user_id'].values:
+                user_top_businesses = top_rated.loc[top_rated['user_id'] == user_id, 'top_businesses'].values[0]
+            else:
+                print(f"No data available for user_id {user_id}")
+                user_top_businesses = top_rated[top_rated['user_id'] == 'new_user']
+            user_top_businesses = set(user_top_businesses)
+            if not valid_businesses:
+                valid_businesses = user_top_businesses
+            else:
+                valid_businesses = valid_businesses.intersection(user_top_businesses)
+
+        filtered_restaurants = feature_df[feature_df['business_id'].isin(valid_businesses)]
+
+        # Construct a feature matrix from these restaurants
+        feature_columns = [f'{i}' for i in original_indices]  # Adjust if column names are different
+        restaurant_features = filtered_restaurants[feature_columns].to_numpy()
+
+        # Compute cosine similarity between aggregated user preference vector and each restaurant's features
+        similarities = cosine_similarity([preference_vector], restaurant_features)[0]
+
+        index = np.argmax(similarities)
+        best_match = filtered_restaurants.iloc[index]
+        similarity_score = similarities[index]
+
+        return {'Name': best_match['name'], 
+                'Business_id' : best_match['business_id'],
+                'Address': best_match.get('address', '') + str(best_match.get('postal_code', '')),
+                'Similarity_Score':  similarity_score}
+    except Exception as e: 
+        print("An edge case is discovered: ", e)
+        sorted_df = feature_df.sort_values(by='stars', ascending=False)
+        top_1000 = sorted_df[['business_id', 'name', 'address', 'postal_code']].head(1000)
+        top_ids = set(top_1000['business_id'])
         
-    valid_businesses = set()
-    for user_id in user_preferences.keys():
-        if user_id in top_rated['user_id'].values:
-            user_top_businesses = top_rated.loc[top_rated['user_id'] == user_id, 'top_businesses'].values[0]
-        else:
-            print(f"No data available for user_id {user_id}")
-            user_top_businesses = top_rated[top_rated['user_id'] == 'new_user']
-        user_top_businesses = set(user_top_businesses)
-        if not valid_businesses:
-            valid_businesses = user_top_businesses
-        else:
-            valid_businesses = valid_businesses.intersection(user_top_businesses)
+        
+        valid_businesses = set()
+        for user_id in user_preferences.keys():
+            if user_id in top_rated['user_id'].values:
+                user_top_businesses = top_rated.loc[top_rated['user_id'] == user_id, 'top_businesses'].values[0]
+            else:
+                print(f"No data available for user_id {user_id}")
+                user_top_businesses = top_rated[top_rated['user_id'] == 'new_user']
+            user_top_businesses = set(user_top_businesses)
+            if not valid_businesses:
+                valid_businesses = user_top_businesses
+            else:
+                valid_businesses = valid_businesses.intersection(user_top_businesses)
+
+        filtered_restaurants = feature_df[feature_df['business_id'].isin(valid_businesses)]
+        random_rest = filtered_restaurants.sample(n=1)
+        
+        return {
+        'Name': random_rest['name'].values[0], 
+        'Business_id': random_rest['business_id'].values[0],
+        'Address': str(random_rest.get('address', '').values[0]) + str(random_rest.get('postal_code', '').values[0]),
+        'Similarity_Score': 0}
     
-    filtered_restaurants = feature_df[feature_df['business_id'].isin(valid_businesses)]
-
-    # Construct a feature matrix from these restaurants
-    feature_columns = [f'{i}' for i in original_indices]  # Adjust if column names are different
-    restaurant_features = filtered_restaurants[feature_columns].to_numpy()
-
-    # Compute cosine similarity between aggregated user preference vector and each restaurant's features
-    similarities = cosine_similarity([preference_vector], restaurant_features)[0]
-
-    index = np.argmax(similarities)
-    best_match = filtered_restaurants.iloc[index]
-    similarity_score = similarities[index]
     
-    return {'success':True,
-            'Name': best_match['name'], 
-            'Business_id' : best_match['business_id'],
-            'Address': best_match.get('address', '') + str(best_match.get('postal_code', '')),
-            'Similarity_Score':  similarity_score}
-
 def get_user_prefs(user_prefs):
     ans = {}
     original_indices = [1, 4, 5, 6, 7, 8, 12, 16, 20, 21, 25, 26, 29, 40, 43]    

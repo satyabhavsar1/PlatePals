@@ -21,9 +21,8 @@ def file_check_or_download(path,name):
   if os.path.exists(path):
     print("File exists - ",name)
     return True
-#   else:
-#     download_file(name)
-#     return True
+  else:
+    return False
 
 def predict_restaurant(user_preferences, top_rated, feature_df):
     
@@ -72,7 +71,8 @@ def predict_restaurant(user_preferences, top_rated, feature_df):
     best_match = filtered_restaurants.iloc[index]
     similarity_score = similarities[index]
     
-    return {'Name': best_match['name'], 
+    return {'success':True,
+            'Name': best_match['name'], 
             'Business_id' : best_match['business_id'],
             'Address': best_match.get('address', '') + str(best_match.get('postal_code', '')),
             'Similarity_Score':  similarity_score}
@@ -102,18 +102,20 @@ def predict(user_prefs):
     file_path3 = os.path.join(directory_path, filename3)
     fc2=file_check_or_download(file_path2,filename2)
     fc3=file_check_or_download(file_path3,filename3)
+    if(fc2 and fc3):
+        top_rated = pd.read_pickle(file_path2)
+        feature_df = pd.read_pickle(file_path3)
+        # user_preferences = {
+        #     'DN7mB9u36QlCourhzbRq7A': [20, 29, 40, 8, 1, 7, 16, 27, 29, 40, 43],
+        #     'I6M-7LxI1By6jd8H_OneeQ': [8, 20, 35, 1, 7, 16],
+        #     'UkBI4VW3CwLvIgXaiiLdig': [25, 7, 26, 8, 43]
+        #     }
+        print("before", user_prefs)
+        user_prefs = get_user_prefs(user_prefs)
+        print("after", user_prefs)
+        data=predict_restaurant(user_prefs, top_rated, feature_df)
+        return data
+    else:
+        return {'sucess': False }
         
-    top_rated = pd.read_pickle(file_path2)
-    feature_df = pd.read_pickle(file_path3)
-    # user_preferences = {
-    #     'DN7mB9u36QlCourhzbRq7A': [20, 29, 40, 8, 1, 7, 16, 27, 29, 40, 43],
-    #     'I6M-7LxI1By6jd8H_OneeQ': [8, 20, 35, 1, 7, 16],
-    #     'UkBI4VW3CwLvIgXaiiLdig': [25, 7, 26, 8, 43]
-    #     }
-    print("before", user_prefs)
-    user_prefs = get_user_prefs(user_prefs)
-    print("after", user_prefs)
-    data=predict_restaurant(user_prefs, top_rated, feature_df)
-    return data
-    
-    
+        

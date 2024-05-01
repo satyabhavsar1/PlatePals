@@ -2,6 +2,35 @@
 
 Welcome to PlatePals, a unique restaurant recommendation application designed to help groups of friends discover perfect dining spots based on their collective preferences. Whether you're craving specific cuisines, in the mood for a vibrant nightlife scene, or looking for places that serve alcohol, PlatePals makes it easy to satisfy everyone's tastes.
 
+# Running the Application
+
+- git clone git@github.com:satyabhavsar1/PlatePals.git
+- Install latest Python version
+- Install the latest Node version and React framework
+- Open 2 terminal windows and enter `cd PlatePals`
+- In one window 
+    - activate virtual python env using
+        - `python3 -m venv newenv`
+        - `source newenv/bin/activate`
+    -  `pip install -r requirements.txt`
+    - python manage.py runserver
+    - This starts our backend server on http://localhost:8000
+- In another window
+    - `cd platepals-frontend`
+    - `npm i`
+    - `npm run start`
+    - This starts our frontend server at http://localhost:3000
+    - Open this link to start using the app
+- Currently our app has following set of users with first and last names as below:
+    1. test test
+    2. abc abc
+    3. ab ab
+    4. a a
+
+You can use any of these names to try the app. Create the room using one user and join the room for other users.
+
+- NOTE: When you start the application, it will automatically download some .pkl files. Please do not delete these files as they contain our dataset and required for the application to run.
+
 # Problem Statement
 
 Choosing a restaurant that fits the diverse preferences of a group can be challenging. PlatePals addresses this issue by providing tailored recommendations that consider various factors such as cuisine type, alcohol availability, and ambiance preferences like nightlife. It also takes into consideration the reviews and ratings that the individual user has given these restaurants over time. 

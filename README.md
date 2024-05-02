@@ -4,7 +4,7 @@ Welcome to PlatePals, a unique restaurant recommendation application designed to
 
 # Running the Application
 
-- git clone git@github.com:satyabhavsar1/PlatePals.git
+- `git clone git@github.com:satyabhavsar1/PlatePals.git`
 - Install latest Python version
 - Install the latest Node version and React framework
 - Open 2 terminal windows and enter `cd PlatePals`
@@ -13,7 +13,7 @@ Welcome to PlatePals, a unique restaurant recommendation application designed to
         - `python3 -m venv newenv`
         - `source newenv/bin/activate`
     -  `pip install -r requirements.txt`
-    - python manage.py runserver
+    - `python manage.py runserver`
     - This starts our backend server on http://localhost:8000
 - In another window
     - `cd platepals-frontend`
